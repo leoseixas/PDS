@@ -11,48 +11,51 @@ class TopBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Observer(
-          builder: (_) {
-            return BarButton(
-              label: homeStore.category?.description ?? 'Categorias',
-              decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(color: Colors.grey[400]),
-                ),
-              ),
-              onTap: () async {
-                final category = await Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => CategoryScreen(
-                      showAll: true,
-                      selected: homeStore.category,
-                    ),
+    return Container(
+      color: Colors.white,
+      child: Row(
+        children: [
+          Observer(
+            builder: (_) {
+              return BarButton(
+                label: homeStore.category?.description ?? 'Categorias',
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(color: Colors.grey[400]),
                   ),
-                );
-                if (category != null) homeStore.setCategory(category);
-              },
-            );
-          },
-        ),
-        BarButton(
-          label: 'Filtros',
-          decoration: BoxDecoration(
-            border: Border(
-              left: BorderSide(color: Colors.grey[400]),
-              bottom: BorderSide(color: Colors.grey[400]),
-            ),
+                ),
+                onTap: () async {
+                  final category = await Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => CategoryScreen(
+                        showAll: true,
+                        selected: homeStore.category,
+                      ),
+                    ),
+                  );
+                  if (category != null) homeStore.setCategory(category);
+                },
+              );
+            },
           ),
-          onTap: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (_) => FilterScreen(),
+          BarButton(
+            label: 'Filtros',
+            decoration: BoxDecoration(
+              border: Border(
+                left: BorderSide(color: Colors.grey[400]),
+                bottom: BorderSide(color: Colors.grey[400]),
               ),
-            );
-          },
-        ),
-      ],
+            ),
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => FilterScreen(),
+                ),
+              );
+            },
+          ),
+        ],
+      ),
     );
   }
 }

@@ -14,7 +14,6 @@ class OrderByField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         FieldTitle(title: 'Ordenar por'),
-        const SizedBox(height: 8),
         Observer(
           builder: (_) {
             return Row(

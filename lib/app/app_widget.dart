@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_it/get_it.dart';
+import 'package:works/app/helpers/colors.dart';
 import 'package:works/app/screens/login/login_screen.dart';
 import 'package:works/app/stores/user_manager_store.dart';
 
@@ -12,7 +14,7 @@ class AppWidget extends StatelessWidget {
       title: 'Works',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primaryColor: Color(0xFF04ADBF),
+        primaryColor: AppColors.kPrimaryColor,
         secondaryHeaderColor: Color(0xFFFF775B),
         visualDensity: VisualDensity.adaptivePlatformDensity,
         textSelectionTheme: TextSelectionThemeData(
@@ -20,6 +22,14 @@ class AppWidget extends StatelessWidget {
         ),
         scaffoldBackgroundColor: Color(0xFFEEF4F6),
       ),
+      supportedLocales: const [
+        Locale('pt', 'BR'),
+      ],
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
       home: LoginScreen(),
     );
   }

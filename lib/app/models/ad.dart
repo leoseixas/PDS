@@ -20,7 +20,6 @@ class Ad {
     address = Address(
       district: object.get<String>(keyAdDistrict),
       city: City(name: object.get<String>(keyAdCity)),
-      cep: object.get<String>(keyAdPostalCode),
       uf: UF(initials: object.get<String>(keyAdFederativeUnit)),
     );
     views = object.get<int>(keyAdViews, defaultValue: 0);
@@ -39,7 +38,7 @@ class Ad {
   Address address;
   num price;
 
-  AdStatus adStatus = AdStatus.PENDING;
+  AdStatus adStatus = AdStatus.ACTIVE;
   DateTime createdDate;
 
   User user;

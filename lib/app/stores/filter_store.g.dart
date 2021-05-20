@@ -9,12 +9,19 @@ part of 'filter_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$FilterStore on _FilterStore, Store {
-  Computed<dynamic> _$priceErrorComputed;
+  Computed<String> _$priceErrorComputed;
 
   @override
-  dynamic get priceError =>
-      (_$priceErrorComputed ??= Computed<dynamic>(() => super.priceError,
+  String get priceError =>
+      (_$priceErrorComputed ??= Computed<String>(() => super.priceError,
               name: '_FilterStore.priceError'))
+          .value;
+  Computed<bool> _$isFormValidComputed;
+
+  @override
+  bool get isFormValid =>
+      (_$isFormValidComputed ??= Computed<bool>(() => super.isFormValid,
+              name: '_FilterStore.isFormValid'))
           .value;
 
   final _$orderByAtom = Atom(name: '_FilterStore.orderBy');
@@ -62,6 +69,36 @@ mixin _$FilterStore on _FilterStore, Store {
     });
   }
 
+  final _$ufAtom = Atom(name: '_FilterStore.uf');
+
+  @override
+  UF get uf {
+    _$ufAtom.reportRead();
+    return super.uf;
+  }
+
+  @override
+  set uf(UF value) {
+    _$ufAtom.reportWrite(value, super.uf, () {
+      super.uf = value;
+    });
+  }
+
+  final _$cityAtom = Atom(name: '_FilterStore.city');
+
+  @override
+  City get city {
+    _$cityAtom.reportRead();
+    return super.city;
+  }
+
+  @override
+  set city(City value) {
+    _$cityAtom.reportWrite(value, super.city, () {
+      super.city = value;
+    });
+  }
+
   final _$_FilterStoreActionController = ActionController(name: '_FilterStore');
 
   @override
@@ -98,12 +135,37 @@ mixin _$FilterStore on _FilterStore, Store {
   }
 
   @override
+  void setUf(UF value) {
+    final _$actionInfo =
+        _$_FilterStoreActionController.startAction(name: '_FilterStore.setUf');
+    try {
+      return super.setUf(value);
+    } finally {
+      _$_FilterStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setCity(City value) {
+    final _$actionInfo = _$_FilterStoreActionController.startAction(
+        name: '_FilterStore.setCity');
+    try {
+      return super.setCity(value);
+    } finally {
+      _$_FilterStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 orderBy: ${orderBy},
 minPrice: ${minPrice},
 maxPrice: ${maxPrice},
-priceError: ${priceError}
+uf: ${uf},
+city: ${city},
+priceError: ${priceError},
+isFormValid: ${isFormValid}
     ''';
   }
 }

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:works/app/models/address.dart';
 import 'package:works/app/models/city.dart';
 import 'package:works/app/models/uf.dart';
 
@@ -43,10 +44,29 @@ class IbgeReposity {
           .toList()
             ..sort(
                 (a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
-
+      print(cityList);
       return cityList;
     } on DioError {
       return Future.error('Falha ao obter lista de Cidades');
     }
+  }
+
+  Future<Address> getAddressFromApi(int idCity) async {
+    if (idCity == null) return Future.error('Nenhuma cidade encontrada!');
+
+    final url =
+        'https://servicodados.ibge.gov.br/api/v1/localidades/municipios/${idCity}';
+
+    try {
+      final response = await Dio().get<Map>(url);
+      print(response);
+      if (response.data.containsKey('erro') && response.data['erro'])
+        return Future.error('Cidade Inválido');
+
+      return Address(
+        uf: response.data['microrregiao']['mesorregiao']['UF']['sigla'],
+        city: City(name: response.data['nome']),
+      );
+    } catch (e) {}
   }
 }

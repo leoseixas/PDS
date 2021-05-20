@@ -1,4 +1,4 @@
-import 'package:brasil_fields/formatter/telefone_input_formatter.dart';
+import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';

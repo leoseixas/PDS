@@ -5,6 +5,7 @@ import 'package:mobx/mobx.dart';
 import 'package:works/app/components/custom_botton_google/custom_botton_google.dart';
 import 'package:works/app/components/error_box.dart';
 import 'package:works/app/components/field_title/field_title.dart';
+import 'package:works/app/helpers/colors.dart';
 import 'package:works/app/screens/base/base_screen.dart';
 import 'package:works/app/screens/recover_password/recover_password.dart';
 import 'package:works/app/screens/signup/signup_screen.dart';
@@ -156,8 +157,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           width: MediaQuery.of(context).size.width,
                           margin: const EdgeInsets.only(top: 20, bottom: 12),
                           child: RaisedButton(
-                            color: Colors.orange,
-                            disabledColor: Colors.orange[200],
+                            color: AppColors.kSecondaryColor,
+                            disabledColor: AppColors.kSecondaryColorLight,
                             child: loginStore.loading
                                 ? CircularProgressIndicator(
                                     valueColor: AlwaysStoppedAnimation(

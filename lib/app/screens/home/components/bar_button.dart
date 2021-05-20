@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:works/app/helpers/colors.dart';
 
 class BarButton extends StatelessWidget {
   BarButton({this.onTap, this.label, this.decoration});
@@ -19,9 +20,9 @@ class BarButton extends StatelessWidget {
           child: Text(
             label,
             style: TextStyle(
-              color: Color(0xFF04ADBF),
-              fontSize: 18,
-              fontWeight: FontWeight.w400,
+              color: AppColors.kSecondaryColor,
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
             ),
           ),
         ),

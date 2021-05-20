@@ -39,6 +39,7 @@ abstract class _CepStore with Store {
     loading = true;
     try {
       address = await CepRepository().getAddressFromApi(clearCep);
+      print(address);
       error = null;
     } catch (e) {
       error = e;

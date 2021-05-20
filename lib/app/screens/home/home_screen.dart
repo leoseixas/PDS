@@ -6,6 +6,8 @@ import 'package:works/app/screens/home/components/search_dialog.dart';
 import 'package:works/app/screens/home/components/top_bar.dart';
 import 'package:works/app/stores/home_store.dart';
 
+import 'components/ad_tile.dart';
+
 class HomeScreen extends StatelessWidget {
   final HomeStore homeStore = GetIt.I<HomeStore>();
 
@@ -25,7 +27,7 @@ class HomeScreen extends StatelessWidget {
       drawer: CustomDrawer(),
       appBar: AppBar(
         title: Observer(builder: (_) {
-          if (homeStore.search.isEmpty) return Container();
+          if (homeStore.search.isEmpty) return Text('Anúnicos');
           return GestureDetector(
             child: LayoutBuilder(builder: (_, constraints) {
               return Container(
@@ -57,6 +59,69 @@ class HomeScreen extends StatelessWidget {
       body: Column(
         children: [
           TopBar(),
+          Expanded(
+            child: Observer(
+              builder: (_) {
+                if (homeStore.error != null)
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.error,
+                        color: Colors.grey[700],
+                        size: 100,
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        'Ocorreu um erro, ${homeStore.error}!',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
+                  );
+                if (homeStore.loading)
+                  return Center(
+                    child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation(Colors.grey),
+                    ),
+                  );
+                if (homeStore.adList.isEmpty)
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.border_clear,
+                        color: Colors.grey[700],
+                        size: 100,
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        'Nenhum anúncio encontrado!',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
+                  );
+                return ListView.builder(
+                  itemCount: homeStore.adList.length,
+                  itemBuilder: (_, index) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      child: AdTile(homeStore.adList[index]),
+                    );
+                  },
+                );
+              },
+            ),
+          ),
         ],
       ),
     );

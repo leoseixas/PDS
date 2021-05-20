@@ -15,7 +15,6 @@ class PriceRangeField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         FieldTitle(title: 'Preço'),
-        const SizedBox(height: 8),
         Row(
           children: [
             PriceField(
@@ -34,10 +33,14 @@ class PriceRangeField extends StatelessWidget {
         Observer(builder: (_) {
           if (filter.priceError != null)
             return Padding(
-              padding: const EdgeInsets.only(top: 4.0),
+              padding: const EdgeInsets.only(left: 5, top: 4.0),
               child: Text(
                 filter.priceError,
-                style: TextStyle(color: Colors.red, fontSize: 12),
+                style: TextStyle(
+                  color: Colors.red,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
             );
           return Container();
