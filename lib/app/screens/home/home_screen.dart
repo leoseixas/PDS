@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:works/app/components/custom_drawer/custom_drawer.dart';
+import 'package:works/app/helpers/colors.dart';
 import 'package:works/app/screens/home/components/search_dialog.dart';
 import 'package:works/app/screens/home/components/top_bar.dart';
 import 'package:works/app/stores/home_store.dart';
@@ -59,6 +60,9 @@ class HomeScreen extends StatelessWidget {
       body: Column(
         children: [
           TopBar(),
+          SizedBox(
+            height: 4,
+          ),
           Expanded(
             child: Observer(
               builder: (_) {
@@ -83,7 +87,7 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ],
                   );
-                if (homeStore.loading)
+                if (homeStore.showProgress)
                   return Center(
                     child: CircularProgressIndicator(
                       valueColor: AlwaysStoppedAnimation(Colors.grey),
@@ -111,11 +115,22 @@ class HomeScreen extends StatelessWidget {
                     ],
                   );
                 return ListView.builder(
-                  itemCount: homeStore.adList.length,
+                  itemCount: homeStore.itemCount,
                   itemBuilder: (_, index) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      child: AdTile(homeStore.adList[index]),
+                    if (index < homeStore.adList.length)
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: AdTile(homeStore.adList[index]),
+                      );
+
+                    homeStore.loadNextPage();
+                    return Container(
+                      margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      height: 4,
+                      child: LinearProgressIndicator(
+                        valueColor:
+                            AlwaysStoppedAnimation(AppColors.kSecondaryColor),
+                      ),
                     );
                   },
                 );

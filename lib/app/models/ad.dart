@@ -7,7 +7,7 @@ import 'package:works/app/models/user.dart';
 import 'package:works/app/repositories/tables_keys.dart';
 import 'package:works/app/repositories/user_respository.dart';
 
-enum AdStatus { PENDING, ACTIVE, DELETED }
+// enum AdStatus { PENDING, ACTIVE, DELETED }
 
 class Ad {
   Ad.fromParse(ParseObject object) {
@@ -18,14 +18,16 @@ class Ad {
     price = object.get<num>(keyAdPrice);
     createdDate = object.createdAt;
     address = Address(
-      district: object.get<String>(keyAdDistrict),
       city: City(name: object.get<String>(keyAdCity)),
-      uf: UF(initials: object.get<String>(keyAdFederativeUnit)),
+      uf: UF(
+        initials: object.get<String>(keyAdFederativeUnit),
+        name: object.get<String>(keyAdState),
+      ),
     );
     views = object.get<int>(keyAdViews, defaultValue: 0);
     user = UserRepository().mapParseToUser(object.get<ParseUser>(keyAdOwner));
     category = Category.fromParse(object.get<ParseObject>(keyAdCategory));
-    adStatus = AdStatus.values[object.get<int>(keyAdStatus)];
+    // adStatus = AdStatus.values[object.get<int>(keyAdStatus)];
   }
 
   Ad();
@@ -38,7 +40,7 @@ class Ad {
   Address address;
   num price;
 
-  AdStatus adStatus = AdStatus.ACTIVE;
+  // AdStatus adStatus = AdStatus.ACTIVE;
   DateTime createdDate;
 
   User user;

@@ -5,6 +5,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:works/app/components/custom_botton_google/custom_botton_google.dart';
 import 'package:works/app/components/error_box.dart';
 import 'package:works/app/components/field_title/field_title.dart';
+import 'package:works/app/helpers/colors.dart';
 import 'package:works/app/stores/signup_store.dart';
 
 class SignUpScreen extends StatelessWidget {
@@ -141,8 +142,8 @@ class SignUpScreen extends StatelessWidget {
                       margin: const EdgeInsets.only(top: 20, bottom: 12),
                       child: RaisedButton(
                         onPressed: signupStore.signUpPressed,
-                        color: Colors.orange,
-                        disabledColor: Colors.orange.withAlpha(120),
+                        color: AppColors.kSecondaryColor,
+                        disabledColor: AppColors.kSecondaryColorLight,
                         child: signupStore.loading
                             ? CircularProgressIndicator(
                                 valueColor:
@@ -181,7 +182,7 @@ class SignUpScreen extends StatelessWidget {
                         'Entre!',
                         style: TextStyle(
                           decoration: TextDecoration.underline,
-                          color: Colors.orange,
+                          color: AppColors.kSecondaryColor,
                           fontSize: 14,
                         ),
                       ),

@@ -77,6 +77,28 @@ mixin _$UfCityStore on _UfCityStore, Store {
     });
   }
 
+  final _$addressAtom = Atom(name: '_UfCityStore.address');
+
+  @override
+  Address get address {
+    _$addressAtom.reportRead();
+    return super.address;
+  }
+
+  @override
+  set address(Address value) {
+    _$addressAtom.reportWrite(value, super.address, () {
+      super.address = value;
+    });
+  }
+
+  final _$setItemAsyncAction = AsyncAction('_UfCityStore.setItem');
+
+  @override
+  Future<void> setItem(dynamic value) {
+    return _$setItemAsyncAction.run(() => super.setItem(value));
+  }
+
   final _$_UfCityStoreActionController = ActionController(name: '_UfCityStore');
 
   @override
@@ -102,11 +124,11 @@ mixin _$UfCityStore on _UfCityStore, Store {
   }
 
   @override
-  void setItem(dynamic value) {
+  void setAddress(Address value) {
     final _$actionInfo = _$_UfCityStoreActionController.startAction(
-        name: '_UfCityStore.setItem');
+        name: '_UfCityStore.setAddress');
     try {
-      return super.setItem(value);
+      return super.setAddress(value);
     } finally {
       _$_UfCityStoreActionController.endAction(_$actionInfo);
     }
@@ -119,6 +141,7 @@ search: ${search},
 uf: ${uf},
 city: ${city},
 error: ${error},
+address: ${address},
 outFiltered: ${outFiltered}
     ''';
   }

@@ -7,11 +7,11 @@ import 'package:mobx/mobx.dart';
 import 'package:works/app/components/custom_drawer/custom_drawer.dart';
 import 'package:works/app/components/error_box.dart';
 import 'package:works/app/components/field_title/field_title.dart';
+import 'package:works/app/helpers/colors.dart';
 import 'package:works/app/screens/create_ad/components/category_field.dart';
+import 'package:works/app/screens/create_ad/components/location_field_ad.dart';
 import 'package:works/app/stores/create_ad_store.dart';
 import 'package:works/app/stores/page_store.dart';
-
-import 'components/cep_field.dart';
 import 'components/images_field.dart';
 
 class CreateAdScreen extends StatefulWidget {
@@ -50,7 +50,7 @@ class _CreateAdScreenState extends State<CreateAdScreen> {
                 elevation: 8,
                 color: Colors.white,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: BorderRadius.circular(5),
                 ),
                 child: Padding(
                   padding: EdgeInsets.all(16),
@@ -82,7 +82,7 @@ class _CreateAdScreenState extends State<CreateAdScreen> {
                 child: Card(
                   color: Colors.white,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(5),
                   ),
                   elevation: 8,
                   child: Padding(
@@ -98,7 +98,7 @@ class _CreateAdScreenState extends State<CreateAdScreen> {
                             onChanged: createAdStore.setTitle,
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
+                                borderRadius: BorderRadius.circular(5),
                               ),
                               contentPadding: contentPadding,
                               errorText: createAdStore.titleError,
@@ -112,7 +112,7 @@ class _CreateAdScreenState extends State<CreateAdScreen> {
                             onChanged: createAdStore.setDescription,
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
+                                borderRadius: BorderRadius.circular(5),
                               ),
                               contentPadding: contentPadding,
                               errorText: createAdStore.descriptionError,
@@ -124,8 +124,7 @@ class _CreateAdScreenState extends State<CreateAdScreen> {
                         FieldTitle(title: 'Categorias'),
                         CategoryField(createAdStore),
                         SizedBox(height: 16),
-                        FieldTitle(title: 'CEP'),
-                        CepField(createAdStore),
+                        LocationFieldAd(createAdStore),
                         SizedBox(height: 16),
                         FieldTitle(title: 'Preço'),
                         Observer(
@@ -134,7 +133,7 @@ class _CreateAdScreenState extends State<CreateAdScreen> {
                               onChanged: createAdStore.setPrice,
                               decoration: InputDecoration(
                                 border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
+                                  borderRadius: BorderRadius.circular(5),
                                 ),
                                 contentPadding: contentPadding,
                                 errorText: createAdStore.priceError,
@@ -161,8 +160,8 @@ class _CreateAdScreenState extends State<CreateAdScreen> {
                             child: GestureDetector(
                               onTap: createAdStore.invalidSendPressed,
                               child: RaisedButton(
-                                color: Colors.orange,
-                                disabledColor: Colors.orange.withAlpha(120),
+                                color: AppColors.kSecondaryColor,
+                                disabledColor: AppColors.kSecondaryColorLight,
                                 child: Text(
                                   'Enviar',
                                   style: TextStyle(fontSize: 18),
@@ -170,7 +169,7 @@ class _CreateAdScreenState extends State<CreateAdScreen> {
                                 textColor: Colors.white,
                                 elevation: 0,
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
+                                  borderRadius: BorderRadius.circular(5),
                                 ),
                                 onPressed: createAdStore.sendPressed,
                               ),

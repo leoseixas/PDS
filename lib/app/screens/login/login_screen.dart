@@ -202,7 +202,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           'Cadastre-se!',
                           style: TextStyle(
                             decoration: TextDecoration.underline,
-                            color: Colors.orange,
+                            color: Colors.white,
                             fontSize: 14,
                           ),
                         ),

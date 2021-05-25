@@ -3,8 +3,10 @@ import 'package:mobx/mobx.dart';
 import 'package:works/app/models/ad.dart';
 import 'package:works/app/models/address.dart';
 import 'package:works/app/models/category.dart';
+import 'package:works/app/models/city.dart';
+import 'package:works/app/models/uf.dart';
 import 'package:works/app/repositories/ad_repository.dart';
-import 'package:works/app/stores/cep_store.dart';
+import 'package:works/app/repositories/ibge_repository.dart';
 import 'package:works/app/stores/user_manager_store.dart';
 part 'create_ad_store.g.dart';
 
@@ -70,10 +72,25 @@ abstract class _CreateAdStore with Store {
       return 'Campo obrigatório';
   }
 
-  CepStore cepStore = CepStore();
+  @observable
+  Address address;
+
+  @action
+  void setAddress(Address value) => address = value;
+
+  @action
+  Future<void> getAddress(City city) async {
+    try {
+      address = await IbgeReposity().getAddressFromApi(city.id);
+      setAddress(address);
+      error = null;
+    } catch (e) {
+      error = e;
+      setAddress(null);
+    }
+  }
 
   @computed
-  Address get address => cepStore.address;
   bool get addressValide => address != null;
   String get addressError {
     if (!showErrors || addressValide)
@@ -124,6 +141,18 @@ abstract class _CreateAdStore with Store {
 
   @action
   void invalidSendPressed() => showErrors = true;
+
+  @observable
+  UF uf;
+
+  @action
+  void setUf(UF value) => uf = value;
+
+  @observable
+  City city;
+
+  @action
+  void setCity(City value) => city = value;
 
   @observable
   bool loading = false;

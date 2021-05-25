@@ -12,14 +12,16 @@ class AdRepository {
     FilterStore filter,
     String search,
     Category category,
+    int page,
   }) async {
     final queryBuilder = QueryBuilder<ParseObject>(ParseObject(keyAdTable));
 
     queryBuilder.includeObject([keyAdOwner, keyAdCategory]);
 
+    queryBuilder.setAmountToSkip(page * 20);
     queryBuilder.setLimit(20);
 
-    queryBuilder.whereEqualTo(keyAdStatus, AdStatus.ACTIVE.index);
+    // queryBuilder.whereEqualTo(keyAdStatus, AdStatus.ACTIVE.index);
 
     if (search != null && search.trim().isNotEmpty) {
       queryBuilder.whereContains(keyAdTitle, search, caseSensitive: false);
@@ -39,7 +41,7 @@ class AdRepository {
         break;
       case OrderBy.DATE:
       default:
-        queryBuilder.orderByDescending(keyAdCreateAt);
+        queryBuilder.orderByDescending(keyAdCreatedAt);
         break;
     }
 
@@ -85,11 +87,11 @@ class AdRepository {
       adObject.set<String>(keyAdTitle, ad.title);
       adObject.set<String>(keyAdDescription, ad.description);
       adObject.set<num>(keyAdPrice, ad.price);
-      adObject.set<int>(keyAdStatus, ad.adStatus.index);
+      // adObject.set<int>(keyAdStatus, ad.adStatus.index);
 
-      adObject.set<String>(keyAdDistrict, ad.address.district);
       adObject.set<String>(keyAdCity, ad.address.city.name);
       adObject.set<String>(keyAdFederativeUnit, ad.address.uf.initials);
+      adObject.set<String>(keyAdState, ad.address.uf.name);
 
       adObject.set<List<ParseFile>>(keyAdImages, parseImages);
 

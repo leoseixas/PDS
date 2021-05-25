@@ -30,12 +30,12 @@ mixin _$CreateAdStore on _CreateAdStore, Store {
       (_$categoryvalidComputed ??= Computed<bool>(() => super.categoryvalid,
               name: '_CreateAdStore.categoryvalid'))
           .value;
-  Computed<Address> _$addressComputed;
+  Computed<bool> _$addressValideComputed;
 
   @override
-  Address get address =>
-      (_$addressComputed ??= Computed<Address>(() => super.address,
-              name: '_CreateAdStore.address'))
+  bool get addressValide =>
+      (_$addressValideComputed ??= Computed<bool>(() => super.addressValide,
+              name: '_CreateAdStore.addressValide'))
           .value;
   Computed<num> _$priceComputed;
 
@@ -103,6 +103,21 @@ mixin _$CreateAdStore on _CreateAdStore, Store {
     });
   }
 
+  final _$addressAtom = Atom(name: '_CreateAdStore.address');
+
+  @override
+  Address get address {
+    _$addressAtom.reportRead();
+    return super.address;
+  }
+
+  @override
+  set address(Address value) {
+    _$addressAtom.reportWrite(value, super.address, () {
+      super.address = value;
+    });
+  }
+
   final _$priceTextAtom = Atom(name: '_CreateAdStore.priceText');
 
   @override
@@ -130,6 +145,36 @@ mixin _$CreateAdStore on _CreateAdStore, Store {
   set showErrors(bool value) {
     _$showErrorsAtom.reportWrite(value, super.showErrors, () {
       super.showErrors = value;
+    });
+  }
+
+  final _$ufAtom = Atom(name: '_CreateAdStore.uf');
+
+  @override
+  UF get uf {
+    _$ufAtom.reportRead();
+    return super.uf;
+  }
+
+  @override
+  set uf(UF value) {
+    _$ufAtom.reportWrite(value, super.uf, () {
+      super.uf = value;
+    });
+  }
+
+  final _$cityAtom = Atom(name: '_CreateAdStore.city');
+
+  @override
+  City get city {
+    _$cityAtom.reportRead();
+    return super.city;
+  }
+
+  @override
+  set city(City value) {
+    _$cityAtom.reportWrite(value, super.city, () {
+      super.city = value;
     });
   }
 
@@ -178,6 +223,13 @@ mixin _$CreateAdStore on _CreateAdStore, Store {
     });
   }
 
+  final _$getAddressAsyncAction = AsyncAction('_CreateAdStore.getAddress');
+
+  @override
+  Future<void> getAddress(City city) {
+    return _$getAddressAsyncAction.run(() => super.getAddress(city));
+  }
+
   final _$_sendAsyncAction = AsyncAction('_CreateAdStore._send');
 
   @override
@@ -222,6 +274,17 @@ mixin _$CreateAdStore on _CreateAdStore, Store {
   }
 
   @override
+  void setAddress(Address value) {
+    final _$actionInfo = _$_CreateAdStoreActionController.startAction(
+        name: '_CreateAdStore.setAddress');
+    try {
+      return super.setAddress(value);
+    } finally {
+      _$_CreateAdStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void setPrice(String value) {
     final _$actionInfo = _$_CreateAdStoreActionController.startAction(
         name: '_CreateAdStore.setPrice');
@@ -244,20 +307,45 @@ mixin _$CreateAdStore on _CreateAdStore, Store {
   }
 
   @override
+  void setUf(UF value) {
+    final _$actionInfo = _$_CreateAdStoreActionController.startAction(
+        name: '_CreateAdStore.setUf');
+    try {
+      return super.setUf(value);
+    } finally {
+      _$_CreateAdStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setCity(City value) {
+    final _$actionInfo = _$_CreateAdStoreActionController.startAction(
+        name: '_CreateAdStore.setCity');
+    try {
+      return super.setCity(value);
+    } finally {
+      _$_CreateAdStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 title: ${title},
 description: ${description},
 category: ${category},
+address: ${address},
 priceText: ${priceText},
 showErrors: ${showErrors},
+uf: ${uf},
+city: ${city},
 loading: ${loading},
 error: ${error},
 savedAd: ${savedAd},
 imagesValid: ${imagesValid},
 titleValid: ${titleValid},
 categoryvalid: ${categoryvalid},
-address: ${address},
+addressValide: ${addressValide},
 price: ${price},
 formValid: ${formValid},
 sendPressed: ${sendPressed}

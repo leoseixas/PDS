@@ -64,9 +64,18 @@ class IbgeReposity {
         return Future.error('Cidade Inválido');
 
       return Address(
-        uf: response.data['microrregiao']['mesorregiao']['UF']['sigla'],
-        city: City(name: response.data['nome']),
+        uf: UF(
+          id: response.data['microrregiao']['mesorregiao']['UF']['id'],
+          initials: response.data['microrregiao']['mesorregiao']['UF']['sigla'],
+          name: response.data['microrregiao']['mesorregiao']['UF']['nome'],
+        ),
+        city: City(
+          id: response.data['id'],
+          name: response.data['nome'],
+        ),
       );
-    } catch (e) {}
+    } catch (e) {
+      return Future.error('Falha ao buscar Endereço');
+    }
   }
 }

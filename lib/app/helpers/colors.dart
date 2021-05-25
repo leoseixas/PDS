@@ -7,4 +7,9 @@ class AppColors {
 
   //Font Colors
   static final Color titleColors = Color(0xFF353535);
+
+  //Whatsapp || Ligar
+
+  static final Color whatsAppColors = Color(0xFF34AF23);
+  static final Color callColors = Color(0xFFF99807);
 }

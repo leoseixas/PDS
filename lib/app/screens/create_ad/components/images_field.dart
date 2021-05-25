@@ -25,7 +25,7 @@ class ImagesField extends StatelessWidget {
           margin: EdgeInsets.all(0),
           color: Colors.grey[200],
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
+            borderRadius: BorderRadius.circular(5),
           ),
           elevation: 0,
           child: Container(

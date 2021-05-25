@@ -38,7 +38,7 @@ class OrderByField extends StatelessWidget {
         height: 40,
         padding: EdgeInsets.symmetric(horizontal: 24),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(5),
           color:
               filter.orderBy == option ? Color(0xFF04ADBF) : Colors.transparent,
           border: Border.all(

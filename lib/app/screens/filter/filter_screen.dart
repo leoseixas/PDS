@@ -24,7 +24,7 @@ class FilterScreen extends StatelessWidget {
           child: Card(
             color: Colors.white,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(5),
             ),
             elevation: 8,
             child: Padding(

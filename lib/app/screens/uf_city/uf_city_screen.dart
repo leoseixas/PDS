@@ -18,7 +18,7 @@ class UfCityScreen extends StatefulWidget {
 
 class _UfCityScreenState extends State<UfCityScreen> {
   _UfCityScreenState(UF uf, bool showAll)
-      : ufCityStore = UfCityStore(uf, showAll);
+      : ufCityStore = UfCityStore(uf: uf, showAll: showAll);
 
   final UfCityStore ufCityStore;
 
