@@ -3,6 +3,7 @@ import 'package:path/path.dart' as path;
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:works/app/models/ad.dart';
 import 'package:works/app/models/category.dart';
+import 'package:works/app/models/user.dart';
 import 'package:works/app/repositories/parse_erros.dart';
 import 'package:works/app/repositories/tables_keys.dart';
 import 'package:works/app/stores/filter_store.dart';
@@ -62,6 +63,26 @@ class AdRepository {
     }
 
     final response = await queryBuilder.query();
+    if (response.success && response.results != null) {
+      return response.results.map((po) => Ad.fromParse(po)).toList();
+    } else if (response.success && response.results == null) {
+      return [];
+    } else {
+      return Future.error(ParseErrors.getDescription(response.error.code));
+    }
+  }
+
+  Future<List<Ad>> getMyAds(User user) async {
+    final currentUser = ParseUser('', '', '')..set(keyUserId, user.id);
+    final queryBuilder = QueryBuilder<ParseObject>(ParseObject(keyAdTable));
+
+    queryBuilder.setLimit(100);
+    queryBuilder.orderByDescending(keyAdCreatedAt);
+    queryBuilder.whereEqualTo(keyAdOwner, currentUser.toPointer());
+    queryBuilder.includeObject([keyAdCategory, keyAdOwner]);
+
+    final response = await queryBuilder.query();
+
     if (response.success && response.results != null) {
       return response.results.map((po) => Ad.fromParse(po)).toList();
     } else if (response.success && response.results == null) {
@@ -134,5 +155,14 @@ class AdRepository {
     } catch (e) {
       Future.error('Falha ao salvar iamgens');
     }
+  }
+
+  Future<void> delete(Ad ad) async {
+    final parseObject = ParseObject(keyAdTable)..set(keyAdId, ad.id);
+
+    final response = await parseObject.delete();
+
+    if (!response.success)
+      return Future.error(ParseErrors.getDescription(response.error.code));
   }
 }

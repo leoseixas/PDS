@@ -28,9 +28,25 @@ class AdTile extends StatelessWidget {
           ),
           elevation: 4,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 4),
+            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 4),
             child: Row(
               children: [
+                Container(
+                  margin: EdgeInsets.only(right: 20),
+                  width: 90,
+                  height: 90,
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(5)),
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: CachedNetworkImageProvider(
+                        ad.images.isEmpty
+                            ? 'https://static.thenounproject.com/png/194055-200.png'
+                            : ad.images.first,
+                      ),
+                    ),
+                  ),
+                ),
                 Expanded(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -65,22 +81,22 @@ class AdTile extends StatelessWidget {
                     ],
                   ),
                 ),
-                Container(
-                  margin: EdgeInsets.only(left: 10),
-                  width: 90,
-                  height: 90,
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(5)),
-                    image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: CachedNetworkImageProvider(
-                        ad.images.isEmpty
-                            ? 'https://static.thenounproject.com/png/194055-200.png'
-                            : ad.images.first,
-                      ),
-                    ),
-                  ),
-                )
+                // Container(
+                //   margin: EdgeInsets.only(left: 10),
+                //   width: 90,
+                //   height: 90,
+                //   decoration: BoxDecoration(
+                //     borderRadius: const BorderRadius.all(Radius.circular(5)),
+                //     image: DecorationImage(
+                //       fit: BoxFit.cover,
+                //       image: CachedNetworkImageProvider(
+                //         ad.images.isEmpty
+                //             ? 'https://static.thenounproject.com/png/194055-200.png'
+                //             : ad.images.first,
+                //       ),
+                //     ),
+                //   ),
+                // ),
               ],
             ),
           ),

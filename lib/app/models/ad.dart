@@ -33,7 +33,7 @@ class Ad {
   Ad();
 
   String id;
-  List images;
+  List images = [];
   String title;
   String description;
   Category category;

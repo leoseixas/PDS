@@ -8,11 +8,22 @@ import 'package:works/app/models/uf.dart';
 import 'package:works/app/repositories/ad_repository.dart';
 import 'package:works/app/repositories/ibge_repository.dart';
 import 'package:works/app/stores/user_manager_store.dart';
+import 'package:works/app/helpers/extensions.dart';
 part 'create_ad_store.g.dart';
 
 class CreateAdStore = _CreateAdStore with _$CreateAdStore;
 
 abstract class _CreateAdStore with Store {
+  _CreateAdStore(Ad ad) {
+    print(ad.toString());
+    title = ad.title;
+    description = ad.description;
+    images = ad.images.asObservable();
+    category = ad.category;
+    priceText = ad.price?.toStringAsFixed(2);
+    uf = ad.address?.uf;
+    city = ad.address?.city;
+  }
   ObservableList images = ObservableList();
 
   @computed
@@ -178,6 +189,7 @@ abstract class _CreateAdStore with Store {
 
     try {
       await AdRepository().saveAd(ad);
+
       savedAd = true;
     } catch (e) {
       error = e;

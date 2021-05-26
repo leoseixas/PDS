@@ -8,27 +8,50 @@ part 'home_store.g.dart';
 class HomeStore = _HomeStore with _$HomeStore;
 
 abstract class _HomeStore with Store {
-  _HomeStore() {
-    autorun((_) async {
-      try {
-        setLoading(true);
-        final newAds = await AdRepository().getHomeAdList(
-          filter: filter,
-          search: search,
-          category: category,
-          page: page,
-        );
-        addNewAds(newAds);
+  // _HomeStore() {
+  // autorun((_) async {
+  //   try {
+  //     setLoading(true);
+  //     final newAds = await AdRepository().getHomeAdList(
+  //       filter: filter,
+  //       search: search,
+  //       category: category,
+  //       page: page,
+  //     );
+  //     addNewAds(newAds);
 
-        setError(null);
-        setLoading(false);
-      } catch (e) {
-        setError(e);
-      }
-    });
+  //     setError(null);
+  //     setLoading(false);
+  //   } catch (e) {
+  //     setError(e);
+  //   }
+  // });
+
+  //   autorun((_) {
+  //     getListAds();
+  //   });
+  // }
+
+  ObservableList<Ad> adList = ObservableList<Ad>();
+
+  Future<void> getListAds() async {
+    try {
+      setLoading(true);
+      final newAds = await AdRepository().getHomeAdList(
+        filter: filter,
+        search: search,
+        category: category,
+        page: page,
+      );
+      adList.clear();
+      addNewAds(newAds);
+
+      setError(null);
+      setLoading(false);
+    } catch (e) {
+      setError(e);
+    }
   }
-
-  ObservableList<Ad> adList = ObservableList();
 
   @observable
   String search = '';
@@ -55,8 +78,8 @@ abstract class _HomeStore with Store {
 
   @action
   void setFilter(FilterStore value) {
-    filter = value;
     resetPage();
+    filter = value;
   }
 
   @observable
@@ -84,7 +107,6 @@ abstract class _HomeStore with Store {
 
   @action
   void addNewAds(List<Ad> newAds) {
-    print('add ${newAds.length}');
     if (newAds.length < 10) lastPage = true;
     adList.addAll(newAds);
   }
@@ -97,6 +119,8 @@ abstract class _HomeStore with Store {
     adList.clear();
     lastPage = false;
   }
+
+  void refresh() => getListAds();
 
   @computed
   bool get showProgress => loading && adList.isEmpty;

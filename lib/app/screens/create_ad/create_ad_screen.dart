@@ -8,6 +8,7 @@ import 'package:works/app/components/custom_drawer/custom_drawer.dart';
 import 'package:works/app/components/error_box.dart';
 import 'package:works/app/components/field_title/field_title.dart';
 import 'package:works/app/helpers/colors.dart';
+import 'package:works/app/models/ad.dart';
 import 'package:works/app/screens/create_ad/components/category_field.dart';
 import 'package:works/app/screens/create_ad/components/location_field_ad.dart';
 import 'package:works/app/stores/create_ad_store.dart';
@@ -15,12 +16,22 @@ import 'package:works/app/stores/page_store.dart';
 import 'components/images_field.dart';
 
 class CreateAdScreen extends StatefulWidget {
+  CreateAdScreen({this.ad});
+
+  final Ad ad;
+
   @override
-  _CreateAdScreenState createState() => _CreateAdScreenState();
+  _CreateAdScreenState createState() => _CreateAdScreenState(ad);
 }
 
 class _CreateAdScreenState extends State<CreateAdScreen> {
-  final CreateAdStore createAdStore = CreateAdStore();
+  _CreateAdScreenState(Ad ad)
+      : editing = ad != null,
+        createAdStore = CreateAdStore(ad ?? Ad());
+
+  final CreateAdStore createAdStore;
+
+  bool editing;
 
   @override
   void initState() {
@@ -36,9 +47,9 @@ class _CreateAdScreenState extends State<CreateAdScreen> {
     final contentPadding = const EdgeInsets.fromLTRB(16, 10, 12, 10);
 
     return Scaffold(
-      drawer: CustomDrawer(),
+      drawer: editing ? null : CustomDrawer(),
       appBar: AppBar(
-        title: Text('Criar anúncio'),
+        title: Text(editing ? 'Editar Anúncio' : 'Criar Anúncio'),
       ),
       body: Observer(
         builder: (_) {
@@ -95,6 +106,7 @@ class _CreateAdScreenState extends State<CreateAdScreen> {
                         FieldTitle(title: 'Titulo'),
                         Observer(builder: (_) {
                           return TextFormField(
+                            initialValue: createAdStore.title,
                             onChanged: createAdStore.setTitle,
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
@@ -109,6 +121,7 @@ class _CreateAdScreenState extends State<CreateAdScreen> {
                         FieldTitle(title: 'Descrição'),
                         Observer(builder: (_) {
                           return TextFormField(
+                            initialValue: createAdStore.description,
                             onChanged: createAdStore.setDescription,
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
@@ -130,6 +143,7 @@ class _CreateAdScreenState extends State<CreateAdScreen> {
                         Observer(
                           builder: (_) {
                             return TextFormField(
+                              initialValue: createAdStore.priceText,
                               onChanged: createAdStore.setPrice,
                               decoration: InputDecoration(
                                 border: OutlineInputBorder(
@@ -163,7 +177,7 @@ class _CreateAdScreenState extends State<CreateAdScreen> {
                                 color: AppColors.kSecondaryColor,
                                 disabledColor: AppColors.kSecondaryColorLight,
                                 child: Text(
-                                  'Enviar',
+                                  editing ? 'Editar' : 'Enviar',
                                   style: TextStyle(fontSize: 18),
                                 ),
                                 textColor: Colors.white,

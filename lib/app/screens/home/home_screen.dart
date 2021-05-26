@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
+import 'package:mobx/mobx.dart';
 import 'package:works/app/components/custom_drawer/custom_drawer.dart';
 import 'package:works/app/helpers/colors.dart';
 import 'package:works/app/screens/home/components/search_dialog.dart';
@@ -9,7 +10,12 @@ import 'package:works/app/stores/home_store.dart';
 
 import 'components/ad_tile.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   final HomeStore homeStore = GetIt.I<HomeStore>();
 
   openSearch(BuildContext context) async {
@@ -20,6 +26,19 @@ class HomeScreen extends StatelessWidget {
       ),
     );
     if (search != null) homeStore.setSearch(search);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    reaction((_) => homeStore.getListAds(), (adList) {
+      if (adList == homeStore.adList) {
+        return;
+      } else {
+        homeStore.adList.clear();
+        homeStore.getListAds();
+      }
+    });
   }
 
   @override
@@ -90,7 +109,7 @@ class HomeScreen extends StatelessWidget {
                 if (homeStore.showProgress)
                   return Center(
                     child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation(Colors.grey),
+                      valueColor: AlwaysStoppedAnimation(Colors.grey[400]),
                     ),
                   );
                 if (homeStore.adList.isEmpty)
