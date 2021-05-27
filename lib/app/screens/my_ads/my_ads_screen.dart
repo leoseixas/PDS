@@ -53,7 +53,7 @@ class MyAdsScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Nenhum anúncio encontrado!',
+                    'Você não possiu anúncios!',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.grey,

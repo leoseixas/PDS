@@ -100,6 +100,8 @@ class AdRepository {
 
       final adObject = ParseObject(keyAdTable);
 
+      if (ad.id != null) adObject.objectId = ad.id;
+
       final parseAcl = ParseACL(owner: parseUser);
       parseAcl.setPublicReadAccess(allowed: true);
       parseAcl.setPublicWriteAccess(allowed: false);

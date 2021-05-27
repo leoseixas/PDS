@@ -27,14 +27,17 @@ abstract class _MyAdsStore with Store {
     });
   }
 
-  ObservableList<Ad> myAdList = ObservableList();
+  // ObservableList<Ad> myAdList = ObservableList();
+  List<Ad> myAdList = [];
 
   Future<void> _getMyAds() async {
     final user = GetIt.I<UserManagerStore>().user;
     try {
       setLoading(true);
-      final newAds = await AdRepository().getMyAds(user);
-      myAdList.addAll(newAds);
+      myAdList = await AdRepository().getMyAds(user);
+
+      // final newAds = await AdRepository().getMyAds(user);
+      // myAdList.addAll(newAds);
       setError(null);
       setLoading(false);
     } catch (e) {
@@ -57,13 +60,18 @@ abstract class _MyAdsStore with Store {
   @computed
   bool get showProgress => loading && myAdList.isEmpty;
 
-  void refresh() => _getMyAds();
+  void refresh() async {
+    loading = true;
+    await _getMyAds();
+    loading = false;
+  }
 
   @action
   Future<void> deleteAd(Ad ad) async {
     loading = true;
     await AdRepository().delete(ad);
-    myAdList.clear();
+    // myAdList.clear();
     refresh();
+    loading = false;
   }
 }

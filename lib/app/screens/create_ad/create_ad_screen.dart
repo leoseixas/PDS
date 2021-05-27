@@ -38,7 +38,11 @@ class _CreateAdScreenState extends State<CreateAdScreen> {
     super.initState();
 
     when((_) => createAdStore.savedAd, () {
-      GetIt.I<PageStore>().setPage(0);
+      if (editing)
+        Navigator.of(context).pop(true);
+      else {
+        GetIt.I<PageStore>().setPage(0);
+      }
     });
   }
 

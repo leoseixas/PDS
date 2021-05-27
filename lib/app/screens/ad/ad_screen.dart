@@ -1,10 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:works/app/helpers/colors.dart';
 import 'package:works/app/models/ad.dart';
 import 'package:works/app/screens/ad/components/main_panel.dart';
 import 'package:works/app/screens/ad/components/description_panel.dart';
+import 'package:works/app/stores/user_manager_store.dart';
 
 import 'components/bottom_bar.dart';
 import 'components/location_panel.dart';
@@ -14,6 +16,8 @@ class AdScreen extends StatelessWidget {
   AdScreen(this.ad);
 
   final Ad ad;
+
+  final UserManagerStore userManagerStore = GetIt.I<UserManagerStore>();
 
   @override
   Widget build(BuildContext context) {
@@ -50,13 +54,19 @@ class AdScreen extends StatelessWidget {
                     LocationPanel(ad),
                     Divider(color: Colors.grey[500]),
                     UserPanel(ad),
-                    SizedBox(height: 84),
+                    if (userManagerStore.user.id == ad.user.id)
+                      Container()
+                    else
+                      SizedBox(height: 84),
                   ],
                 ),
               )
             ],
           ),
-          BottomBar(ad),
+          if (userManagerStore.user.id == ad.user.id)
+            Container()
+          else
+            BottomBar(ad),
         ],
       ),
     );
