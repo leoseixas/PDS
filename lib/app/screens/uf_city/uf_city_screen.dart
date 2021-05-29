@@ -63,101 +63,91 @@ class _UfCityScreenState extends State<UfCityScreen> {
         body: Container(
           alignment: Alignment.topCenter,
           padding: EdgeInsets.all(8),
-          child: Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
-            ),
-            elevation: 8,
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Observer(builder: (_) {
-                    if (ufCityStore.uf != null)
-                      return Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              'Estado: ${ufCityStore.uf.name}',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w900,
-                                color: AppColors.kPrimaryColor,
-                              ),
-                            ),
-                            flex: 5,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Observer(builder: (_) {
+                if (ufCityStore.uf != null)
+                  return Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          'Estado: ${ufCityStore.uf.name}',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w900,
+                            color: AppColors.kPrimaryColor,
                           ),
-                          IconButton(
-                            icon: Icon(Icons.close),
-                            onPressed: () {
-                              ufCityStore.setItem(null);
+                        ),
+                        flex: 5,
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.close),
+                        onPressed: () {
+                          ufCityStore.setItem(null);
+                          controller.clear();
+                        },
+                      ),
+                    ],
+                  );
+                else
+                  return Container();
+              }),
+              TextField(
+                controller: controller,
+                cursorColor: AppColors.kPrimaryColor,
+                keyboardType: TextInputType.text,
+                autocorrect: false,
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  isDense: true,
+                  labelText: 'Pesquisar',
+                ),
+                onChanged: ufCityStore.setSearch,
+              ),
+              SizedBox(height: 8),
+              Expanded(
+                child: Observer(
+                  builder: (_) {
+                    if (ufCityStore.error != null)
+                      return ErrorBox(
+                        message: ufCityStore.error,
+                      );
+                    return ListView.separated(
+                      itemCount: ufCityStore.outFiltered.length,
+                      itemBuilder: (_, index) {
+                        return Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            onTap: () {
+                              ufCityStore
+                                  .setItem(ufCityStore.outFiltered[index]);
                               controller.clear();
                             },
-                          ),
-                        ],
-                      );
-                    else
-                      return Container();
-                  }),
-                  TextField(
-                    controller: controller,
-                    cursorColor: AppColors.kPrimaryColor,
-                    keyboardType: TextInputType.text,
-                    autocorrect: false,
-                    decoration: InputDecoration(
-                      border: const OutlineInputBorder(),
-                      isDense: true,
-                      labelText: 'Pesquisar',
-                    ),
-                    onChanged: ufCityStore.setSearch,
-                  ),
-                  SizedBox(height: 8),
-                  Expanded(
-                    child: Observer(
-                      builder: (_) {
-                        if (ufCityStore.error != null)
-                          return ErrorBox(
-                            message: ufCityStore.error,
-                          );
-                        return ListView.separated(
-                          itemCount: ufCityStore.outFiltered.length,
-                          itemBuilder: (_, index) {
-                            return Material(
-                              color: Colors.transparent,
-                              child: InkWell(
-                                onTap: () {
-                                  ufCityStore
-                                      .setItem(ufCityStore.outFiltered[index]);
-                                  controller.clear();
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.all(12),
-                                  child: Text(
-                                    ufCityStore.outFiltered[index].name,
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight:
-                                          ufCityStore.outFiltered[index].id ==
-                                                  -1
-                                              ? FontWeight.w900
-                                              : FontWeight.w400,
-                                      color: AppColors.kPrimaryColor,
-                                    ),
-                                  ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(12),
+                              child: Text(
+                                ufCityStore.outFiltered[index].name,
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight:
+                                      ufCityStore.outFiltered[index].id == -1
+                                          ? FontWeight.w900
+                                          : FontWeight.w400,
+                                  color: AppColors.kPrimaryColor,
                                 ),
                               ),
-                            );
-                          },
-                          separatorBuilder: (_, __) => Divider(),
+                            ),
+                          ),
                         );
                       },
-                    ),
-                  ),
-                ],
+                      separatorBuilder: (_, __) => Divider(),
+                    );
+                  },
+                ),
               ),
-            ),
+            ],
           ),
         ),
       ),

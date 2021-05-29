@@ -1,4 +1,5 @@
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
+import 'package:path/path.dart';
 import 'package:works/app/models/user.dart';
 import 'package:works/app/repositories/parse_erros.dart';
 import 'package:works/app/repositories/tables_keys.dart';
@@ -9,7 +10,6 @@ class UserRepository {
 
     parseUser.set<String>(keyUserName, user.name);
     parseUser.set<String>(keyUserPhone, user.phone);
-    parseUser.set(keyUserType, user.type.index);
 
     final response = await parseUser.signUp();
 
@@ -64,13 +64,41 @@ class UserRepository {
     }
   }
 
+  Future<void> save(User user) async {
+    final ParseUser parseUser = await ParseUser.currentUser();
+
+    if (parseUser != null) {
+      parseUser.set<String>(keyUserName, user.name);
+      parseUser.set<String>(keyUserPhone, user.phone);
+
+      if (user.password != null) {
+        parseUser.password = user.password;
+      }
+
+      final response = await parseUser.save();
+      if (!response.success)
+        return Future.error(ParseErrors.getDescription(response.error.code));
+      if (user.password != null) {
+        await parseUser.logout();
+        final loginResponse =
+            await ParseUser(user.email, user.password, '').login();
+        if (!loginResponse.success)
+          return Future.error(ParseErrors.getDescription(response.error.code));
+      }
+    }
+  }
+
+  Future<void> logout() async {
+    final ParseUser currentUser = await ParseUser.currentUser();
+    await currentUser.logout();
+  }
+
   User mapParseToUser(ParseUser parseUser) {
     return User(
       id: parseUser.objectId,
       name: parseUser.get(keyUserName),
       email: parseUser.get(keyUserEmail),
       phone: parseUser.get(keyUserPhone),
-      type: UserType.values[parseUser.get(keyUserType)],
       createdAt: parseUser.get(keyUserCreatedAt),
     );
   }

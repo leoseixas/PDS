@@ -92,111 +92,110 @@ class _CreateAdScreenState extends State<CreateAdScreen> {
           else
             return Container(
               alignment: Alignment.topCenter,
-              padding: EdgeInsets.all(8),
+              padding: EdgeInsets.all(16),
               child: SingleChildScrollView(
-                child: Card(
-                  color: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  elevation: 8,
-                  child: Padding(
-                    padding: EdgeInsets.all(16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        ImagesField(createAdStore),
-                        SizedBox(height: 16),
-                        FieldTitle(title: 'Titulo'),
-                        Observer(builder: (_) {
-                          return TextFormField(
-                            initialValue: createAdStore.title,
-                            onChanged: createAdStore.setTitle,
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              contentPadding: contentPadding,
-                              errorText: createAdStore.titleError,
-                            ),
-                          );
-                        }),
-                        SizedBox(height: 16),
-                        FieldTitle(title: 'Descrição'),
-                        Observer(builder: (_) {
-                          return TextFormField(
-                            initialValue: createAdStore.description,
-                            onChanged: createAdStore.setDescription,
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              contentPadding: contentPadding,
-                              errorText: createAdStore.descriptionError,
-                            ),
-                            maxLines: null,
-                          );
-                        }),
-                        SizedBox(height: 16),
-                        FieldTitle(title: 'Categorias'),
-                        CategoryField(createAdStore),
-                        SizedBox(height: 16),
-                        LocationFieldAd(createAdStore),
-                        SizedBox(height: 16),
-                        FieldTitle(title: 'Preço'),
-                        Observer(
-                          builder: (_) {
-                            return TextFormField(
-                              initialValue: createAdStore.priceText,
-                              onChanged: createAdStore.setPrice,
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                contentPadding: contentPadding,
-                                errorText: createAdStore.priceError,
-                                prefixText: 'R\$ ',
-                              ),
-                              keyboardType: TextInputType.number,
-                              inputFormatters: [
-                                FilteringTextInputFormatter.digitsOnly,
-                                RealInputFormatter(centavos: true),
-                              ],
-                            );
-                          },
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    ImagesField(createAdStore),
+                    SizedBox(height: 16),
+                    FieldTitle(title: 'Titulo'),
+                    Observer(builder: (_) {
+                      return TextFormField(
+                        autofocus: false,
+                        initialValue: createAdStore.title,
+                        onChanged: createAdStore.setTitle,
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.white,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          contentPadding: contentPadding,
+                          errorText: createAdStore.titleError,
                         ),
-                        SizedBox(height: 16),
-                        Observer(builder: (_) {
-                          return ErrorBox(
-                            message: createAdStore.error,
-                          );
-                        }),
-                        Observer(builder: (_) {
-                          return Container(
-                            height: 48,
-                            margin: const EdgeInsets.only(top: 4),
-                            child: GestureDetector(
-                              onTap: createAdStore.invalidSendPressed,
-                              child: RaisedButton(
-                                color: AppColors.kSecondaryColor,
-                                disabledColor: AppColors.kSecondaryColorLight,
-                                child: Text(
-                                  editing ? 'Editar' : 'Enviar',
-                                  style: TextStyle(fontSize: 18),
-                                ),
-                                textColor: Colors.white,
-                                elevation: 0,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                onPressed: createAdStore.sendPressed,
-                              ),
+                      );
+                    }),
+                    SizedBox(height: 16),
+                    FieldTitle(title: 'Descrição'),
+                    Observer(builder: (_) {
+                      return TextFormField(
+                        autofocus: false,
+                        initialValue: createAdStore.description,
+                        onChanged: createAdStore.setDescription,
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.white,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          contentPadding: contentPadding,
+                          errorText: createAdStore.descriptionError,
+                        ),
+                        maxLines: null,
+                      );
+                    }),
+                    SizedBox(height: 16),
+                    FieldTitle(title: 'Categorias'),
+                    CategoryField(createAdStore),
+                    SizedBox(height: 16),
+                    LocationFieldAd(createAdStore),
+                    SizedBox(height: 16),
+                    FieldTitle(title: 'Preço'),
+                    Observer(
+                      builder: (_) {
+                        return TextFormField(
+                          autofocus: false,
+                          initialValue: createAdStore.priceText,
+                          onChanged: createAdStore.setPrice,
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5),
                             ),
-                          );
-                        }),
-                      ],
+                            contentPadding: contentPadding,
+                            errorText: createAdStore.priceError,
+                            prefixText: 'R\$ ',
+                          ),
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                            RealInputFormatter(centavos: true),
+                          ],
+                        );
+                      },
                     ),
-                  ),
+                    SizedBox(height: 16),
+                    Observer(builder: (_) {
+                      return ErrorBox(
+                        message: createAdStore.error,
+                      );
+                    }),
+                    Observer(builder: (_) {
+                      return Container(
+                        height: 48,
+                        margin: const EdgeInsets.only(top: 4),
+                        child: GestureDetector(
+                          onTap: createAdStore.invalidSendPressed,
+                          child: RaisedButton(
+                            color: AppColors.kSecondaryColor,
+                            disabledColor: AppColors.kSecondaryColorLight,
+                            child: Text(
+                              editing ? 'Editar' : 'Enviar',
+                              style: TextStyle(fontSize: 18),
+                            ),
+                            textColor: Colors.white,
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            onPressed: createAdStore.sendPressed,
+                          ),
+                        ),
+                      );
+                    }),
+                  ],
                 ),
               ),
             );

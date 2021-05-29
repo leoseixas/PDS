@@ -12,4 +12,6 @@ class AppColors {
 
   static final Color whatsAppColors = Color(0xFF34AF23);
   static final Color callColors = Color(0xFFF99807);
+
+  static final Color backgoundColor = Color(0xFFEEF4F6);
 }

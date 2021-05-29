@@ -23,6 +23,13 @@ mixin _$LoginStore on _LoginStore, Store {
       (_$passwordValidComputed ??= Computed<bool>(() => super.passwordValid,
               name: '_LoginStore.passwordValid'))
           .value;
+  Computed<bool> _$isFormValidComputed;
+
+  @override
+  bool get isFormValid =>
+      (_$isFormValidComputed ??= Computed<bool>(() => super.isFormValid,
+              name: '_LoginStore.isFormValid'))
+          .value;
   Computed<Function> _$loginPressedComputed;
 
   @override
@@ -58,6 +65,21 @@ mixin _$LoginStore on _LoginStore, Store {
   set password(String value) {
     _$passwordAtom.reportWrite(value, super.password, () {
       super.password = value;
+    });
+  }
+
+  final _$showErrorsAtom = Atom(name: '_LoginStore.showErrors');
+
+  @override
+  bool get showErrors {
+    _$showErrorsAtom.reportRead();
+    return super.showErrors;
+  }
+
+  @override
+  set showErrors(bool value) {
+    _$showErrorsAtom.reportWrite(value, super.showErrors, () {
+      super.showErrors = value;
     });
   }
 
@@ -138,15 +160,28 @@ mixin _$LoginStore on _LoginStore, Store {
   }
 
   @override
+  void invalidSendPressed() {
+    final _$actionInfo = _$_LoginStoreActionController.startAction(
+        name: '_LoginStore.invalidSendPressed');
+    try {
+      return super.invalidSendPressed();
+    } finally {
+      _$_LoginStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 email: ${email},
 password: ${password},
+showErrors: ${showErrors},
 loading: ${loading},
 loggedIn: ${loggedIn},
 error: ${error},
 emailValid: ${emailValid},
 passwordValid: ${passwordValid},
+isFormValid: ${isFormValid},
 loginPressed: ${loginPressed}
     ''';
   }

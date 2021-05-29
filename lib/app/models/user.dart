@@ -1,12 +1,9 @@
-enum UserType { PARTICULAR, PROFESSIONAL }
-
 class User {
   User(
       {this.name,
       this.email,
       this.phone,
       this.password,
-      this.type = UserType.PARTICULAR,
       this.id,
       this.createdAt});
 
@@ -15,11 +12,10 @@ class User {
   String email;
   String phone;
   String password;
-  UserType type;
   DateTime createdAt;
 
   @override
   String toString() {
-    return 'User{id: $id, name: $name, email: $email, phone: $phone, password: $password, type: $type, createdAt: $createdAt}';
+    return 'User{id: $id, name: $name, email: $email, phone: $phone, password: $password, createdAt: $createdAt}';
   }
 }

@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -21,85 +20,96 @@ class ImagesField extends StatelessWidget {
 
     return Column(
       children: [
-        Card(
-          margin: EdgeInsets.all(0),
-          color: Colors.grey[200],
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(5),
-          ),
-          elevation: 0,
-          child: Container(
-            height: 120,
-            child: Observer(
-              builder: (_) {
-                return ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: createAdStore.images.length < 5
-                      ? createAdStore.images.length + 1
-                      : 5,
-                  itemBuilder: (_, index) {
-                    if (index == createAdStore.images.length)
-                      return Padding(
-                        padding: const EdgeInsets.fromLTRB(8, 8, 0, 0),
-                        child: GestureDetector(
-                          onTap: () {
-                            if (Platform.isAndroid) {
-                              showModalBottomSheet(
-                                context: context,
-                                builder: (_) =>
-                                    ImageSourceModal(onImageSelected),
-                              );
-                            } else {
-                              showCupertinoModalPopup(
-                                context: context,
-                                builder: (_) =>
-                                    ImageSourceModal(onImageSelected),
-                              );
-                            }
-                          },
-                          child: CircleAvatar(
-                            radius: 44,
-                            backgroundColor: Colors.grey[300],
-                            child: Icon(
-                              Icons.camera_alt,
-                              size: 40,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      );
-                    else
-                      return Padding(
-                        padding: EdgeInsets.fromLTRB(
-                          8,
-                          16,
-                          index == 4 ? 8 : 0,
-                          16,
-                        ),
-                        child: GestureDetector(
-                          onTap: () {
-                            showDialog(
-                              context: context,
-                              builder: (_) => ImageDialog(
-                                image: createAdStore.images[index],
-                                onDelete: () =>
-                                    createAdStore.images.removeAt(index),
+        Observer(
+          builder: (_) {
+            return Card(
+              margin: EdgeInsets.all(0),
+              color: Colors.white,
+              shape: createAdStore.imagesError == null
+                  ? RoundedRectangleBorder(
+                      side: new BorderSide(color: Colors.grey[800], width: 1),
+                      borderRadius: BorderRadius.circular(5),
+                    )
+                  : RoundedRectangleBorder(
+                      side: new BorderSide(color: Colors.red[700], width: 1),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+              elevation: 0,
+              child: Container(
+                height: 120,
+                child: Observer(
+                  builder: (_) {
+                    return ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: createAdStore.images.length < 5
+                          ? createAdStore.images.length + 1
+                          : 5,
+                      itemBuilder: (_, index) {
+                        if (index == createAdStore.images.length)
+                          return Padding(
+                            padding: const EdgeInsets.fromLTRB(8, 8, 0, 0),
+                            child: GestureDetector(
+                              onTap: () {
+                                if (Platform.isAndroid) {
+                                  showModalBottomSheet(
+                                    context: context,
+                                    builder: (_) =>
+                                        ImageSourceModal(onImageSelected),
+                                  );
+                                } else {
+                                  showCupertinoModalPopup(
+                                    context: context,
+                                    builder: (_) =>
+                                        ImageSourceModal(onImageSelected),
+                                  );
+                                }
+                              },
+                              child: CircleAvatar(
+                                radius: 44,
+                                backgroundColor: Colors.grey[300],
+                                child: Icon(
+                                  Icons.camera_alt,
+                                  size: 40,
+                                  color: Colors.white,
+                                ),
                               ),
-                            );
-                          },
-                          child: CircleAvatar(
-                            radius: 44,
-                            backgroundImage: createAdStore.images[index] is File
-                                ? FileImage(createAdStore.images[index])
-                                : NetworkImage(createAdStore.images[index]),
-                          ),
-                        ),
-                      );
+                            ),
+                          );
+                        else
+                          return Padding(
+                            padding: EdgeInsets.fromLTRB(
+                              8,
+                              16,
+                              index == 4 ? 8 : 0,
+                              16,
+                            ),
+                            child: GestureDetector(
+                              onTap: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (_) => ImageDialog(
+                                    image: createAdStore.images[index],
+                                    onDelete: () =>
+                                        createAdStore.images.removeAt(index),
+                                  ),
+                                );
+                              },
+                              child: CircleAvatar(
+                                radius: 44,
+                                backgroundImage: createAdStore.images[index]
+                                        is File
+                                    ? FileImage(createAdStore.images[index])
+                                    : NetworkImage(createAdStore.images[index]),
+                              ),
+                            ),
+                          );
+                      },
+                    );
                   },
-                );
-              },
-            ),
-          ),
+                ),
+              ),
+            );
+          },
         ),
         Observer(
           builder: (_) {
@@ -108,11 +118,6 @@ class ImagesField extends StatelessWidget {
                 margin: const EdgeInsets.only(left: 10, right: 10),
                 padding: const EdgeInsets.fromLTRB(6, 8, 0, 8),
                 alignment: Alignment.centerLeft,
-                decoration: BoxDecoration(
-                  border: Border(
-                    top: BorderSide(color: Colors.red),
-                  ),
-                ),
                 child: Text(
                   createAdStore.imagesError,
                   style: TextStyle(

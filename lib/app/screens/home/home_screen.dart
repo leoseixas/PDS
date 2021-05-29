@@ -79,9 +79,6 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Column(
         children: [
           TopBar(),
-          SizedBox(
-            height: 4,
-          ),
           Expanded(
             child: Observer(
               builder: (_) {
@@ -138,7 +135,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   itemBuilder: (_, index) {
                     if (index < homeStore.adList.length)
                       return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        padding:
+                            const EdgeInsets.only(left: 8, top: 4, right: 8),
                         child: AdTile(homeStore.adList[index]),
                       );
 

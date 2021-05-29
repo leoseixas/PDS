@@ -32,7 +32,7 @@ class LocationFieldAd extends StatelessWidget {
               child: Card(
                 shape: adStore.addressError == null
                     ? RoundedRectangleBorder(
-                        side: new BorderSide(color: Colors.grey, width: 1),
+                        side: new BorderSide(color: Colors.grey[800], width: 1),
                         borderRadius: BorderRadius.circular(5),
                       )
                     : RoundedRectangleBorder(
@@ -94,7 +94,8 @@ class LocationFieldAd extends StatelessWidget {
                 child: Card(
                   shape: adStore.addressError == null
                       ? RoundedRectangleBorder(
-                          side: new BorderSide(color: Colors.grey, width: 1),
+                          side:
+                              new BorderSide(color: Colors.grey[800], width: 1),
                           borderRadius: BorderRadius.circular(5),
                         )
                       : RoundedRectangleBorder(

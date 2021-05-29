@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:works/app/components/custom_botton/custom_button.dart';
+import 'package:works/app/helpers/colors.dart';
 
 class RecoverPassword extends StatelessWidget {
   @override
@@ -11,26 +11,20 @@ class RecoverPassword extends StatelessWidget {
       body: Container(
         alignment: Alignment.topCenter,
         padding: EdgeInsets.all(20),
-        child: Card(
-          color: Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-          elevation: 8,
-          child: Padding(
-            padding: EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              'Esqueceu sua senha?',
+              style: TextStyle(
+                color: Color(0xFF787171),
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Text(
-                  'Esqueceu sua senha?',
-                  style: TextStyle(
-                    color: Color(0xFF787171),
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
                 SizedBox(height: 16),
                 Text(
                   'Não se preocupe! Insira o seu email de cadastro e enviaremos '
@@ -57,13 +51,30 @@ class RecoverPassword extends StatelessWidget {
                   keyboardType: TextInputType.emailAddress,
                   // onChanged: signupStore.setName,
                 ),
-                CustomButton(
-                  label: 'Entrar',
-                  onPressed: () {},
+                Container(
+                  height: 45,
+                  margin: const EdgeInsets.only(top: 20, bottom: 12),
+                  child: GestureDetector(
+                    onTap: () {},
+                    child: RaisedButton(
+                      onPressed: () {},
+                      color: AppColors.kSecondaryColor,
+                      disabledColor: AppColors.kSecondaryColorLight,
+                      child: Text(
+                        'Recuperar',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                      textColor: Colors.white,
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),
-          ),
+          ],
         ),
       ),
     );

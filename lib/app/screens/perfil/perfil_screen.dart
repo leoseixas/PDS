@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:works/app/components/custom_drawer/custom_drawer.dart';
 import 'package:works/app/helpers/colors.dart';
+import 'package:works/app/screens/login/login_screen.dart';
 import 'package:works/app/screens/my_ads/my_ads_screen.dart';
+import 'package:works/app/screens/edit_account/edit_account.dart';
+import 'package:works/app/stores/page_store.dart';
 import 'package:works/app/stores/user_manager_store.dart';
 import 'package:works/app/helpers/extensions.dart';
 
@@ -16,12 +20,18 @@ class PerfilScreen extends StatelessWidget {
         title: Text(''),
         elevation: 0,
         actions: [
-          Container(
-            padding: EdgeInsets.only(right: 22),
-            alignment: Alignment.center,
-            child: Text(
-              'EDITAR',
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (_) => EditAccount()));
+            },
+            child: Container(
+              padding: EdgeInsets.only(right: 22),
+              alignment: Alignment.center,
+              child: Text(
+                'EDITAR',
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+              ),
             ),
           )
         ],
@@ -39,14 +49,16 @@ class PerfilScreen extends StatelessWidget {
                     height: 60,
                   ),
                   SizedBox(height: 50),
-                  Text(
-                    userManagerStore.user.name,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 30,
-                      color: AppColors.titleColors,
-                    ),
-                  ),
+                  Observer(builder: (_) {
+                    return Text(
+                      userManagerStore.user.name,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 30,
+                        color: AppColors.titleColors,
+                      ),
+                    );
+                  }),
                   SizedBox(height: 5),
                   Text(
                     userManagerStore.user.email,
@@ -58,7 +70,7 @@ class PerfilScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 10),
                   Text(
-                    'Na Works desde ${userManagerStore.user.createdAt.formattedDate()}',
+                    'Criado em ${userManagerStore.user.createdAt.formattedDate()}',
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
@@ -129,7 +141,12 @@ class PerfilScreen extends StatelessWidget {
                           fontWeight: FontWeight.w500,
                         ),
                       ),
-                      onTap: () {},
+                      onTap: () {
+                        userManagerStore.logout();
+                        GetIt.I<PageStore>().setPage(0);
+                        Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(builder: (_) => LoginScreen()));
+                      },
                     ),
                     Divider(color: Colors.grey[500]),
                   ],

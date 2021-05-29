@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:works/app/helpers/colors.dart';
-import 'package:works/app/screens/login/login_screen.dart';
+import 'package:works/app/screens/splash/splash_intro_screen.dart';
 import 'package:works/app/stores/user_manager_store.dart';
 
 class AppWidget extends StatelessWidget {
@@ -20,7 +20,8 @@ class AppWidget extends StatelessWidget {
         textSelectionTheme: TextSelectionThemeData(
           cursorColor: Color(0xFFFF775B),
         ),
-        scaffoldBackgroundColor: Color(0xFFEEF4F6),
+        // scaffoldBackgroundColor: Color(0xFFEEF4F6),
+        scaffoldBackgroundColor: Colors.white,
       ),
       supportedLocales: const [
         Locale('pt', 'BR'),
@@ -30,7 +31,7 @@ class AppWidget extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
       ],
-      home: LoginScreen(),
+      home: SplashIntroScreen(),
     );
   }
 }

@@ -19,57 +19,47 @@ class FilterScreen extends StatelessWidget {
       ),
       body: Container(
         alignment: Alignment.topCenter,
-        padding: EdgeInsets.all(8),
+        padding: EdgeInsets.all(16),
         child: SingleChildScrollView(
-          child: Card(
-            color: Colors.white,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5),
-            ),
-            elevation: 8,
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  LocationField(filter),
-                  const SizedBox(height: 16),
-                  OrderByField(filter),
-                  const SizedBox(height: 16),
-                  PriceRangeField(filter),
-                  const SizedBox(height: 16),
-                  Observer(
-                    builder: (_) {
-                      return Container(
-                        height: 45,
-                        child: RaisedButton(
-                          color: AppColors.kSecondaryColor,
-                          disabledColor: AppColors.kSecondaryColorLight,
-                          child: Text(
-                            'Filtrar',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          textColor: Colors.white,
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          onPressed: filter.isFormValid
-                              ? () {
-                                  filter.save();
-                                  Navigator.of(context).pop();
-                                }
-                              : null,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              LocationField(filter),
+              const SizedBox(height: 16),
+              OrderByField(filter),
+              const SizedBox(height: 16),
+              PriceRangeField(filter),
+              const SizedBox(height: 16),
+              Observer(
+                builder: (_) {
+                  return Container(
+                    height: 45,
+                    child: RaisedButton(
+                      color: AppColors.kSecondaryColor,
+                      disabledColor: AppColors.kSecondaryColorLight,
+                      child: Text(
+                        'Filtrar',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
                         ),
-                      );
-                    },
-                  ),
-                ],
+                      ),
+                      textColor: Colors.white,
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      onPressed: filter.isFormValid
+                          ? () {
+                              filter.save();
+                              Navigator.of(context).pop();
+                            }
+                          : null,
+                    ),
+                  );
+                },
               ),
-            ),
+            ],
           ),
         ),
       ),

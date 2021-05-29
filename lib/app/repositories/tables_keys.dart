@@ -26,3 +26,10 @@ const keyAdCategory = 'category';
 const keyAdOwner = 'owner';
 const keyAdCreatedAt = 'createdAt';
 const keyAdViews = 'views';
+
+//keys favorites ads
+
+const keyFavoriteTable = 'Favorite';
+const keyFavoriteId = 'objectId';
+const keyFavoriteAd = 'ad';
+const keyFavoriteUser = 'user';

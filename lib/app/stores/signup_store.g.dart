@@ -133,6 +133,36 @@ mixin _$SignupStore on _SignupStore, Store {
     });
   }
 
+  final _$showErrorsAtom = Atom(name: '_SignupStore.showErrors');
+
+  @override
+  bool get showErrors {
+    _$showErrorsAtom.reportRead();
+    return super.showErrors;
+  }
+
+  @override
+  set showErrors(bool value) {
+    _$showErrorsAtom.reportWrite(value, super.showErrors, () {
+      super.showErrors = value;
+    });
+  }
+
+  final _$savedAccountAtom = Atom(name: '_SignupStore.savedAccount');
+
+  @override
+  bool get savedAccount {
+    _$savedAccountAtom.reportRead();
+    return super.savedAccount;
+  }
+
+  @override
+  set savedAccount(bool value) {
+    _$savedAccountAtom.reportWrite(value, super.savedAccount, () {
+      super.savedAccount = value;
+    });
+  }
+
   final _$loadingAtom = Atom(name: '_SignupStore.loading');
 
   @override
@@ -228,6 +258,17 @@ mixin _$SignupStore on _SignupStore, Store {
   }
 
   @override
+  void invalidSendPressed() {
+    final _$actionInfo = _$_SignupStoreActionController.startAction(
+        name: '_SignupStore.invalidSendPressed');
+    try {
+      return super.invalidSendPressed();
+    } finally {
+      _$_SignupStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 name: ${name},
@@ -235,6 +276,8 @@ email: ${email},
 phone: ${phone},
 pass1: ${pass1},
 pass2: ${pass2},
+showErrors: ${showErrors},
+savedAccount: ${savedAccount},
 loading: ${loading},
 error: ${error},
 nameValid: ${nameValid},

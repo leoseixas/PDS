@@ -28,6 +28,7 @@ class UserPanel extends StatelessWidget {
           padding: const EdgeInsets.only(top: 10, bottom: 14),
           child: Card(
             elevation: 1,
+            color: Colors.grey[50],
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(

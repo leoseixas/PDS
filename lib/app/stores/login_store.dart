@@ -9,28 +9,48 @@ class LoginStore = _LoginStore with _$LoginStore;
 
 abstract class _LoginStore with Store {
   @observable
-  String email;
+  String email = '';
   @action
   setEmail(String value) => email = value;
 
   @computed
   bool get emailValid => email != null && email.isEmailValid();
-  String get emailError =>
-      email == null || emailValid ? null : 'E-mail inválido';
+  String get emailError {
+    if (!showErrors || emailValid)
+      return null;
+    else if (email.isEmpty)
+      return 'Campo obrigatório';
+    else
+      return 'E-mail inválido';
+  }
 
   @observable
-  String password;
+  String password = '';
   @action
   setPassword(String value) => password = value;
 
   @computed
   bool get passwordValid => password != null && password.length >= 4;
-  String get passwordError =>
-      password == null || passwordValid ? null : 'Senha Invalida';
+  String get passwordError {
+    if (!showErrors || passwordValid)
+      return null;
+    else if (password.isEmpty)
+      return 'Campo obrigatório';
+    else
+      return 'Senha inválido';
+  }
 
   @computed
-  Function get loginPressed =>
-      emailValid && passwordValid && !loading ? _login : null;
+  bool get isFormValid => emailValid && passwordValid;
+
+  @computed
+  Function get loginPressed => isFormValid && !loading ? _login : null;
+
+  @observable
+  bool showErrors = false;
+
+  @action
+  void invalidSendPressed() => showErrors = true;
 
   @observable
   bool loading = false;
@@ -44,7 +64,7 @@ abstract class _LoginStore with Store {
   @action
   Future<void> _login() async {
     loading = true;
-
+    error = null;
     try {
       final user = await UserRepository().loginWithEmail(email, password);
       GetIt.I<UserManagerStore>().setUser(user);
