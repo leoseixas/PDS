@@ -64,13 +64,12 @@ class MyAdsScreen extends StatelessWidget {
                 ],
               ),
             );
-          return Padding(
-            padding: EdgeInsets.only(top: 8),
+          return Container(
             child: ListView.builder(
               itemCount: myAdsStore.myAdList.length,
               itemBuilder: (_, index) {
                 return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  padding: const EdgeInsets.only(left: 12, top: 4, right: 12),
                   child: MyAdTile(myAdsStore.myAdList[index], myAdsStore),
                 );
               },

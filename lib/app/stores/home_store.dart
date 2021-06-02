@@ -1,7 +1,9 @@
+import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 import 'package:works/app/models/ad.dart';
 import 'package:works/app/models/category.dart';
 import 'package:works/app/repositories/ad_repository.dart';
+import 'package:works/app/stores/connectivity_store.dart';
 import 'package:works/app/stores/filter_store.dart';
 part 'home_store.g.dart';
 
@@ -9,32 +11,31 @@ class HomeStore = _HomeStore with _$HomeStore;
 
 abstract class _HomeStore with Store {
   // _HomeStore() {
-  // autorun((_) async {
-  //   try {
-  //     setLoading(true);
-  //     final newAds = await AdRepository().getHomeAdList(
-  //       filter: filter,
-  //       search: search,
-  //       category: category,
-  //       page: page,
-  //     );
-  //     addNewAds(newAds);
-
-  //     setError(null);
-  //     setLoading(false);
-  //   } catch (e) {
-  //     setError(e);
-  //   }
-  // });
-
-  //   autorun((_) {
-  //     getListAds();
+  //   autorun((_) async {
+  //     connectivityStore.connected;
+  //     try {
+  //       setLoading(true);
+  //       final newAds = await AdRepository().getHomeAdList(
+  //         filter: filter,
+  //         search: search,
+  //         category: category,
+  //         page: page,
+  //       );
+  //       addNewAds(newAds);
+  //       setError(null);
+  //       setLoading(false);
+  //     } catch (e) {
+  //       setError(e);
+  //     }
   //   });
   // }
+
+  final ConnectivityStore connectivityStore = GetIt.I<ConnectivityStore>();
 
   ObservableList<Ad> adList = ObservableList<Ad>();
 
   Future<void> getListAds() async {
+    connectivityStore.connected;
     try {
       setLoading(true);
       final newAds = await AdRepository().getHomeAdList(

@@ -32,7 +32,7 @@ class _EditAccountState extends State<EditAccount> {
       body: SingleChildScrollView(
         child: Container(
           alignment: Alignment.topCenter,
-          padding: EdgeInsets.all(16),
+          padding: EdgeInsets.all(12),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -116,10 +116,8 @@ class _EditAccountState extends State<EditAccount> {
                 return Container(
                   height: 45,
                   margin: const EdgeInsets.only(top: 20, bottom: 25),
-                  child: RaisedButton(
+                  child: ElevatedButton(
                     onPressed: editAccountStore.savePressed,
-                    color: AppColors.kSecondaryColor,
-                    disabledColor: AppColors.kSecondaryColorLight,
                     child: editAccountStore.loading
                         ? CircularProgressIndicator(
                             valueColor: AlwaysStoppedAnimation(Colors.white),
@@ -128,10 +126,23 @@ class _EditAccountState extends State<EditAccount> {
                             'Salvar alteração',
                             style: TextStyle(fontSize: 18),
                           ),
-                    textColor: Colors.white,
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5),
+                    style: ButtonStyle(
+                      foregroundColor: MaterialStateProperty.resolveWith<Color>(
+                        (Set<MaterialState> states) =>
+                            states.contains(MaterialState.disabled)
+                                ? Colors.white
+                                : Colors.white,
+                      ),
+                      backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                        (Set<MaterialState> states) =>
+                            states.contains(MaterialState.disabled)
+                                ? AppColors.kSecondaryColorLight
+                                : AppColors.kSecondaryColor,
+                      ),
+                      shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
+                      )),
+                      elevation: MaterialStateProperty.all<double>(0),
                     ),
                   ),
                 );

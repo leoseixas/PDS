@@ -92,62 +92,20 @@ class _CreateAdScreenState extends State<CreateAdScreen> {
           else
             return Container(
               alignment: Alignment.topCenter,
-              padding: EdgeInsets.all(16),
               child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    ImagesField(createAdStore),
-                    SizedBox(height: 16),
-                    FieldTitle(title: 'Titulo'),
-                    Observer(builder: (_) {
-                      return TextFormField(
-                        autofocus: false,
-                        initialValue: createAdStore.title,
-                        onChanged: createAdStore.setTitle,
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Colors.white,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          contentPadding: contentPadding,
-                          errorText: createAdStore.titleError,
-                        ),
-                      );
-                    }),
-                    SizedBox(height: 16),
-                    FieldTitle(title: 'Descrição'),
-                    Observer(builder: (_) {
-                      return TextFormField(
-                        autofocus: false,
-                        initialValue: createAdStore.description,
-                        onChanged: createAdStore.setDescription,
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Colors.white,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          contentPadding: contentPadding,
-                          errorText: createAdStore.descriptionError,
-                        ),
-                        maxLines: null,
-                      );
-                    }),
-                    SizedBox(height: 16),
-                    FieldTitle(title: 'Categorias'),
-                    CategoryField(createAdStore),
-                    SizedBox(height: 16),
-                    LocationFieldAd(createAdStore),
-                    SizedBox(height: 16),
-                    FieldTitle(title: 'Preço'),
-                    Observer(
-                      builder: (_) {
+                child: Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      ImagesField(createAdStore),
+                      SizedBox(height: 16),
+                      FieldTitle(title: 'Titulo'),
+                      Observer(builder: (_) {
                         return TextFormField(
                           autofocus: false,
-                          initialValue: createAdStore.priceText,
-                          onChanged: createAdStore.setPrice,
+                          initialValue: createAdStore.title,
+                          onChanged: createAdStore.setTitle,
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: Colors.white,
@@ -155,47 +113,105 @@ class _CreateAdScreenState extends State<CreateAdScreen> {
                               borderRadius: BorderRadius.circular(5),
                             ),
                             contentPadding: contentPadding,
-                            errorText: createAdStore.priceError,
-                            prefixText: 'R\$ ',
+                            errorText: createAdStore.titleError,
                           ),
-                          keyboardType: TextInputType.number,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly,
-                            RealInputFormatter(centavos: true),
-                          ],
                         );
-                      },
-                    ),
-                    SizedBox(height: 16),
-                    Observer(builder: (_) {
-                      return ErrorBox(
-                        message: createAdStore.error,
-                      );
-                    }),
-                    Observer(builder: (_) {
-                      return Container(
-                        height: 48,
-                        margin: const EdgeInsets.only(top: 4),
-                        child: GestureDetector(
-                          onTap: createAdStore.invalidSendPressed,
-                          child: RaisedButton(
-                            color: AppColors.kSecondaryColor,
-                            disabledColor: AppColors.kSecondaryColorLight,
-                            child: Text(
-                              editing ? 'Editar' : 'Enviar',
-                              style: TextStyle(fontSize: 18),
-                            ),
-                            textColor: Colors.white,
-                            elevation: 0,
-                            shape: RoundedRectangleBorder(
+                      }),
+                      SizedBox(height: 16),
+                      FieldTitle(title: 'Descrição'),
+                      Observer(builder: (_) {
+                        return TextFormField(
+                          autofocus: false,
+                          initialValue: createAdStore.description,
+                          onChanged: createAdStore.setDescription,
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white,
+                            border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(5),
                             ),
-                            onPressed: createAdStore.sendPressed,
+                            contentPadding: contentPadding,
+                            errorText: createAdStore.descriptionError,
                           ),
-                        ),
-                      );
-                    }),
-                  ],
+                          maxLines: null,
+                        );
+                      }),
+                      SizedBox(height: 16),
+                      FieldTitle(title: 'Categorias'),
+                      CategoryField(createAdStore),
+                      SizedBox(height: 16),
+                      LocationFieldAd(createAdStore),
+                      SizedBox(height: 16),
+                      FieldTitle(title: 'Preço'),
+                      Observer(
+                        builder: (_) {
+                          return TextFormField(
+                            autofocus: false,
+                            initialValue: createAdStore.priceText,
+                            onChanged: createAdStore.setPrice,
+                            decoration: InputDecoration(
+                              filled: true,
+                              fillColor: Colors.white,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              contentPadding: contentPadding,
+                              errorText: createAdStore.priceError,
+                              prefixText: 'R\$ ',
+                            ),
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly,
+                              RealInputFormatter(centavos: true),
+                            ],
+                          );
+                        },
+                      ),
+                      SizedBox(height: 16),
+                      Observer(builder: (_) {
+                        return ErrorBox(
+                          message: createAdStore.error,
+                        );
+                      }),
+                      Observer(builder: (_) {
+                        return Container(
+                          height: 48,
+                          margin: const EdgeInsets.only(top: 4),
+                          child: GestureDetector(
+                            onTap: createAdStore.invalidSendPressed,
+                            child: ElevatedButton(
+                              onPressed: createAdStore.sendPressed,
+                              child: Text(
+                                editing ? 'Editar' : 'Enviar',
+                                style: TextStyle(fontSize: 18),
+                              ),
+                              style: ButtonStyle(
+                                foregroundColor:
+                                    MaterialStateProperty.resolveWith<Color>(
+                                  (Set<MaterialState> states) =>
+                                      states.contains(MaterialState.disabled)
+                                          ? Colors.white
+                                          : Colors.white,
+                                ),
+                                backgroundColor:
+                                    MaterialStateProperty.resolveWith<Color>(
+                                  (Set<MaterialState> states) =>
+                                      states.contains(MaterialState.disabled)
+                                          ? AppColors.kSecondaryColorLight
+                                          : AppColors.kSecondaryColor,
+                                ),
+                                shape: MaterialStateProperty.all(
+                                    RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5),
+                                )),
+                                elevation: MaterialStateProperty.all<double>(0),
+                              ),
+                            ),
+                          ),
+                        );
+                      }),
+                    ],
+                  ),
                 ),
               ),
             );

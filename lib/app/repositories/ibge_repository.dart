@@ -55,7 +55,7 @@ class IbgeReposity {
     if (idCity == null) return Future.error('Nenhuma cidade encontrada!');
 
     final url =
-        'https://servicodados.ibge.gov.br/api/v1/localidades/municipios/${idCity}';
+        'https://servicodados.ibge.gov.br/api/v1/localidades/municipios/$idCity';
 
     try {
       final response = await Dio().get<Map>(url);

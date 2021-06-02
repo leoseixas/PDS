@@ -1,5 +1,4 @@
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
-import 'package:path/path.dart';
 import 'package:works/app/models/user.dart';
 import 'package:works/app/repositories/parse_erros.dart';
 import 'package:works/app/repositories/tables_keys.dart';
@@ -39,7 +38,8 @@ class UserRepository {
       if (response.success) {
         return mapParseToUser(response.result);
       } else {
-        await parseUser.logout();
+        // await parseUser.logout();
+        return null;
       }
     }
     return null;
@@ -101,5 +101,12 @@ class UserRepository {
       phone: parseUser.get(keyUserPhone),
       createdAt: parseUser.get(keyUserCreatedAt),
     );
+  }
+
+  Future<void> recoverPassword(String email) async {
+    final ParseUser user = ParseUser(email.toLowerCase(), '', email);
+    final ParseResponse parseResponse = await user.requestPasswordReset();
+    if (!parseResponse.success)
+      return Future.error(ParseErrors.getDescription(parseResponse.error.code));
   }
 }

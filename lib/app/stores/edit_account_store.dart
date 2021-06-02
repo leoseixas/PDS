@@ -11,7 +11,6 @@ class EditAccountStore = _EditAccountStore with _$EditAccountStore;
 abstract class _EditAccountStore with Store {
   _EditAccountStore() {
     user = userManagerStore.user;
-
     name = user.name;
     phone = user.phone;
   }

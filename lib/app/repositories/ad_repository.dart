@@ -15,60 +15,62 @@ class AdRepository {
     Category category,
     int page,
   }) async {
-    final queryBuilder = QueryBuilder<ParseObject>(ParseObject(keyAdTable));
+    try {
+      final queryBuilder = QueryBuilder<ParseObject>(ParseObject(keyAdTable));
 
-    queryBuilder.includeObject([keyAdOwner, keyAdCategory]);
+      queryBuilder.includeObject([keyAdOwner, keyAdCategory]);
 
-    queryBuilder.setAmountToSkip(page * 20);
-    queryBuilder.setLimit(20);
+      queryBuilder.setAmountToSkip(page * 20);
+      queryBuilder.setLimit(20);
 
-    // queryBuilder.whereEqualTo(keyAdStatus, AdStatus.ACTIVE.index);
+      if (search != null && search.trim().isNotEmpty) {
+        queryBuilder.whereContains(keyAdTitle, search, caseSensitive: false);
+      }
 
-    if (search != null && search.trim().isNotEmpty) {
-      queryBuilder.whereContains(keyAdTitle, search, caseSensitive: false);
-    }
+      if (category != null && category.id != '*') {
+        queryBuilder.whereEqualTo(
+          keyAdCategory,
+          (ParseObject(keyCategoryTable)..set(keyCategoryId, category.id))
+              .toPointer(),
+        );
+      }
 
-    if (category != null && category.id != '*') {
-      queryBuilder.whereEqualTo(
-        keyAdCategory,
-        (ParseObject(keyCategoryTable)..set(keyCategoryId, category.id))
-            .toPointer(),
-      );
-    }
+      switch (filter.orderBy) {
+        case OrderBy.PRICE:
+          queryBuilder.orderByAscending(keyAdPrice);
+          break;
+        case OrderBy.DATE:
+        default:
+          queryBuilder.orderByDescending(keyAdCreatedAt);
+          break;
+      }
 
-    switch (filter.orderBy) {
-      case OrderBy.PRICE:
-        queryBuilder.orderByAscending(keyAdPrice);
-        break;
-      case OrderBy.DATE:
-      default:
-        queryBuilder.orderByDescending(keyAdCreatedAt);
-        break;
-    }
+      if (filter.minPrice != null && filter.minPrice > 0) {
+        queryBuilder.whereGreaterThanOrEqualsTo(keyAdPrice, filter.minPrice);
+      }
 
-    if (filter.minPrice != null && filter.minPrice > 0) {
-      queryBuilder.whereGreaterThanOrEqualsTo(keyAdPrice, filter.minPrice);
-    }
+      if (filter.maxPrice != null && filter.maxPrice > 0) {
+        queryBuilder.whereLessThanOrEqualTo(keyAdPrice, filter.maxPrice);
+      }
 
-    if (filter.maxPrice != null && filter.maxPrice > 0) {
-      queryBuilder.whereLessThanOrEqualTo(keyAdPrice, filter.maxPrice);
-    }
+      if (filter.city != null && filter.city.id != -1) {
+        queryBuilder.whereEqualTo(keyAdCity, filter.city.name);
+      }
 
-    if (filter.city != null && filter.city.id != -1) {
-      queryBuilder.whereEqualTo(keyAdCity, filter.city.name);
-    }
+      if (filter.uf != null && filter.uf.id != -1) {
+        queryBuilder.whereEqualTo(keyAdFederativeUnit, filter.uf.initials);
+      }
 
-    if (filter.uf != null && filter.uf.id != -1) {
-      queryBuilder.whereEqualTo(keyAdFederativeUnit, filter.uf.initials);
-    }
-
-    final response = await queryBuilder.query();
-    if (response.success && response.results != null) {
-      return response.results.map((po) => Ad.fromParse(po)).toList();
-    } else if (response.success && response.results == null) {
-      return [];
-    } else {
-      return Future.error(ParseErrors.getDescription(response.error.code));
+      final response = await queryBuilder.query();
+      if (response.success && response.results != null) {
+        return response.results.map((po) => Ad.fromParse(po)).toList();
+      } else if (response.success && response.results == null) {
+        return [];
+      } else {
+        return Future.error(ParseErrors.getDescription(response.error.code));
+      }
+    } catch (e) {
+      return Future.error('Falha de conexão');
     }
   }
 
@@ -155,7 +157,7 @@ class AdRepository {
       }
       return parseImages;
     } catch (e) {
-      Future.error('Falha ao salvar iamgens');
+      return Future.error('Falha ao salvar iamgens');
     }
   }
 

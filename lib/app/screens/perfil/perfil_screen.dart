@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:works/app/components/custom_drawer/custom_drawer.dart';
 import 'package:works/app/helpers/colors.dart';
+import 'package:works/app/screens/favorites/favorites_screen.dart';
 import 'package:works/app/screens/login/login_screen.dart';
 import 'package:works/app/screens/my_ads/my_ads_screen.dart';
 import 'package:works/app/screens/edit_account/edit_account.dart';
@@ -115,7 +116,10 @@ class PerfilScreen extends StatelessWidget {
                         Icons.keyboard_arrow_right,
                         color: AppColors.kPrimaryColor,
                       ),
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (_) => FavoritesScreen(hideDrawer: true)));
+                      },
                     ),
                     Divider(color: Colors.grey[500]),
                     ListTile(

@@ -6,6 +6,8 @@ import 'package:works/app/components/custom_drawer/custom_drawer.dart';
 import 'package:works/app/helpers/colors.dart';
 import 'package:works/app/screens/home/components/search_dialog.dart';
 import 'package:works/app/screens/home/components/top_bar.dart';
+import 'package:works/app/stores/category_store.dart';
+import 'package:works/app/stores/connectivity_store.dart';
 import 'package:works/app/stores/home_store.dart';
 
 import 'components/ad_tile.dart';
@@ -17,6 +19,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final HomeStore homeStore = GetIt.I<HomeStore>();
+  final CategoryStore categoryStore = GetIt.I<CategoryStore>();
+  final ConnectivityStore connectivityStore = GetIt.I<ConnectivityStore>();
 
   openSearch(BuildContext context) async {
     final search = await showDialog(
@@ -31,13 +35,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    reaction((_) => homeStore.getListAds(), (adList) {
-      if (adList == homeStore.adList) {
-        return;
-      } else {
-        homeStore.adList.clear();
-        homeStore.getListAds();
-      }
+    autorun((_) {
+      if (connectivityStore.connected) homeStore.getListAds();
     });
   }
 
@@ -136,7 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     if (index < homeStore.adList.length)
                       return Padding(
                         padding:
-                            const EdgeInsets.only(left: 8, top: 4, right: 8),
+                            const EdgeInsets.only(left: 12, top: 4, right: 12),
                         child: AdTile(homeStore.adList[index]),
                       );
 

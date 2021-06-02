@@ -9,31 +9,33 @@ class CustomBottonGoogle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 45,
-      width: MediaQuery.of(context).size.width,
       child: RaisedButton(
         onPressed: onPressed,
-        color: Colors.white,
+        color: Colors.blue,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
+          // mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 13),
-              child: Image.asset(
-                'assets/icons/google.png',
-                width: 32,
-              ),
+            Image.asset(
+              'assets/icons/facebook.png',
+              width: 24,
             ),
-            Text(
-              'Entrar com google',
-              style: TextStyle(
-                color: Colors.grey[800],
-                fontSize: 14,
+            Expanded(
+              child: Center(
+                child: Text(
+                  'Entrar com Facebook',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
               ),
             ),
           ],
         ),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(5),
         ),
       ),
     );

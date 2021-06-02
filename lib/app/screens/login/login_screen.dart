@@ -9,6 +9,7 @@ import 'package:works/app/helpers/colors.dart';
 import 'package:works/app/screens/base/base_screen.dart';
 import 'package:works/app/screens/recover_password/recover_password.dart';
 import 'package:works/app/screens/signup/signup_screen.dart';
+import 'package:works/app/stores/connectivity_store.dart';
 import 'package:works/app/stores/login_store.dart';
 import 'package:works/app/stores/user_manager_store.dart';
 
@@ -20,17 +21,95 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final LoginStore loginStore = LoginStore();
   final UserManagerStore userManagerStore = GetIt.I<UserManagerStore>();
+  final ConnectivityStore connectivityStore = GetIt.I<ConnectivityStore>();
 
   ReactionDisposer disposer;
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   autorun((_) {
+  //     if (!connectivityStore.connected) {
+  //       Future.delayed(Duration(milliseconds: 50)).then((value) {
+  //         showDialog(context: context, builder: (_) => OfflineScreen());
+  //       });
+  //     }
+  //   });
+  // reaction((_) => userManagerStore.getUserLogged(), (userLogged) {
+  //   print(userLogged);
+  //   if (!userLogged) {
+  //     Navigator.of(context).pushReplacement(
+  //       MaterialPageRoute(
+  //         builder: (_) => BaseScreen(),
+  //       ),
+  //     );
+  //   }
+  // });
+  // }
+
+  @override
+  void initState() {
+    super.initState();
+    userManagerStore.getCurrentUser();
+  }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    // autorun((_) {
+    //   if (!connectivityStore.connected) {
+    //     Future.delayed(Duration(milliseconds: 50)).then((value) {
+    //       showDialog(context: context, builder: (_) => OfflineScreen());
+    //     });
+    //   }
+    // });
+    // reaction((_) => userManagerStore.getCurrentUser(), (currentUser) {
+    //   if (currentUser != null) {
+    //     Navigator.of(context).pushReplacement(
+    //       MaterialPageRoute(
+    //         builder: (_) => BaseScreen(),
+    //       ),
+    //     );
+    //   }
+    // });
+
+    // autorun((_) {
+    //   if (!connectivityStore.connected) {
+    //     Future.delayed(Duration(milliseconds: 50)).then((value) {
+    //       showDialog(context: context, builder: (_) => OfflineScreen());
+    //     });
+    //   }
+    // });
+
+    // autorun((_) {
+    //   if (!connectivityStore.connected) {
+    //     Future.delayed(Duration(milliseconds: 50)).then((value) => () {
+    //           userManagerStore.getCurrentUser();
+    //           if (userManagerStore.user != null)
+    //             Navigator.of(context).pushReplacement(
+    //               MaterialPageRoute(
+    //                 builder: (_) => BaseScreen(),
+    //               ),
+    //             );
+    //         });
+    //   }
+    // });
 
     disposer = reaction(
       (_) => loginStore.loggedIn,
       (isLoggedIn) {
         if (isLoggedIn)
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (_) => BaseScreen(),
+            ),
+          );
+      },
+    );
+    disposer = reaction(
+      (_) => userManagerStore.user,
+      (user) {
+        if (user != null)
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
               builder: (_) => BaseScreen(),
@@ -85,7 +164,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       enabled: !loginStore.loading,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(5),
                         ),
                         isDense: true,
                         filled: true,
@@ -103,7 +182,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       enabled: !loginStore.loading,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(5),
                         ),
                         isDense: true,
                         filled: true,
@@ -129,19 +208,18 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => RecoverPassword()));
+                          builder: (context) =>
+                              RecoverPassword(loginStore.email)));
                     },
                   ),
                   Observer(builder: (_) {
                     return Container(
                       height: 45,
-                      // width: MediaQuery.of(context).size.width,
                       margin: const EdgeInsets.only(top: 20, bottom: 12),
                       child: GestureDetector(
                         onTap: loginStore.invalidSendPressed,
-                        child: RaisedButton(
-                          color: AppColors.kSecondaryColor,
-                          disabledColor: AppColors.kSecondaryColorLight,
+                        child: ElevatedButton(
+                          onPressed: loginStore.loginPressed,
                           child: loginStore.loading
                               ? CircularProgressIndicator(
                                   valueColor: AlwaysStoppedAnimation(
@@ -152,12 +230,27 @@ class _LoginScreenState extends State<LoginScreen> {
                                   'Entrar',
                                   style: TextStyle(fontSize: 18),
                                 ),
-                          textColor: Colors.white,
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
+                          style: ButtonStyle(
+                            foregroundColor:
+                                MaterialStateProperty.resolveWith<Color>(
+                              (Set<MaterialState> states) =>
+                                  states.contains(MaterialState.disabled)
+                                      ? Colors.white
+                                      : Colors.white,
+                            ),
+                            backgroundColor:
+                                MaterialStateProperty.resolveWith<Color>(
+                              (Set<MaterialState> states) =>
+                                  states.contains(MaterialState.disabled)
+                                      ? AppColors.kSecondaryColorLight
+                                      : AppColors.kSecondaryColor,
+                            ),
+                            shape: MaterialStateProperty.all(
+                                RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            )),
+                            elevation: MaterialStateProperty.all<double>(0),
                           ),
-                          onPressed: loginStore.loginPressed,
                         ),
                       ),
                     );

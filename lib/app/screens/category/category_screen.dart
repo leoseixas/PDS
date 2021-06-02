@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
-import 'package:works/app/components/error_box.dart';
 import 'package:works/app/helpers/colors.dart';
 import 'package:works/app/models/category.dart';
 import 'package:works/app/stores/category_store.dart';
@@ -22,20 +21,16 @@ class CategoryScreen extends StatelessWidget {
       ),
       body: Container(
         alignment: Alignment.topCenter,
-        // padding: EdgeInsets.all(8),
         child: Observer(
           builder: (_) {
-            if (categoryStore.error != null) {
-              return ErrorBox(
-                message: categoryStore.error,
-              );
-            } else if (categoryStore.categoriesList.isEmpty) {
+            if (categoryStore.categoryList.isEmpty) {
               return Center(child: CircularProgressIndicator());
             } else {
               final categories = showAll
                   ? categoryStore.allCategoryList
-                  : categoryStore.categoriesList;
+                  : categoryStore.categoryList;
               return ListView.separated(
+                padding: EdgeInsets.all(8),
                 separatorBuilder: (_, __) {
                   return Divider(
                     height: 0.1,
@@ -48,9 +43,6 @@ class CategoryScreen extends StatelessWidget {
                   return Material(
                     color: Colors.transparent,
                     child: InkWell(
-                      // customBorder: RoundedRectangleBorder(
-                      //   borderRadius: BorderRadius.circular(20),
-                      // ),
                       onTap: () {
                         Navigator.of(context).pop(category);
                       },

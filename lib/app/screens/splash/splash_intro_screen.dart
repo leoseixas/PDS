@@ -4,6 +4,8 @@ import 'package:get_it/get_it.dart';
 import 'package:splashscreen/splashscreen.dart';
 import 'package:works/app/screens/base/base_screen.dart';
 import 'package:works/app/screens/login/login_screen.dart';
+import 'package:works/app/screens/offline/offline_screen.dart';
+import 'package:works/app/stores/connectivity_store.dart';
 import 'package:works/app/stores/user_manager_store.dart';
 
 class SplashIntroScreen extends StatefulWidget {
@@ -13,6 +15,7 @@ class SplashIntroScreen extends StatefulWidget {
 
 class _SplashIntroScreenState extends State<SplashIntroScreen> {
   final UserManagerStore userManagerStore = GetIt.I<UserManagerStore>();
+  final ConnectivityStore connectivityStore = GetIt.I<ConnectivityStore>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,8 +34,11 @@ class _SplashIntroScreenState extends State<SplashIntroScreen> {
                 stops: [0.60, 1.0],
                 tileMode: TileMode.clamp,
               ),
-              navigateAfterSeconds:
-                  userManagerStore.user != null ? BaseScreen() : LoginScreen(),
+              navigateAfterSeconds: !connectivityStore.connected
+                  ? OfflineScreen()
+                  : userManagerStore.user != null
+                      ? BaseScreen()
+                      : LoginScreen(),
               loaderColor: Colors.transparent,
             );
           }),

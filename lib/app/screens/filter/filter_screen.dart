@@ -34,9 +34,13 @@ class FilterScreen extends StatelessWidget {
                 builder: (_) {
                   return Container(
                     height: 45,
-                    child: RaisedButton(
-                      color: AppColors.kSecondaryColor,
-                      disabledColor: AppColors.kSecondaryColorLight,
+                    child: ElevatedButton(
+                      onPressed: filter.isFormValid
+                          ? () {
+                              filter.save();
+                              Navigator.of(context).pop();
+                            }
+                          : null,
                       child: Text(
                         'Filtrar',
                         style: TextStyle(
@@ -44,17 +48,26 @@ class FilterScreen extends StatelessWidget {
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      textColor: Colors.white,
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
+                      style: ButtonStyle(
+                        foregroundColor:
+                            MaterialStateProperty.resolveWith<Color>(
+                          (Set<MaterialState> states) =>
+                              states.contains(MaterialState.disabled)
+                                  ? Colors.white
+                                  : Colors.white,
+                        ),
+                        backgroundColor:
+                            MaterialStateProperty.resolveWith<Color>(
+                          (Set<MaterialState> states) =>
+                              states.contains(MaterialState.disabled)
+                                  ? AppColors.kSecondaryColorLight
+                                  : AppColors.kSecondaryColor,
+                        ),
+                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        )),
+                        elevation: MaterialStateProperty.all<double>(0),
                       ),
-                      onPressed: filter.isFormValid
-                          ? () {
-                              filter.save();
-                              Navigator.of(context).pop();
-                            }
-                          : null,
                     ),
                   );
                 },

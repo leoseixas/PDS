@@ -131,23 +131,39 @@ class SignUpScreen extends StatelessWidget {
                       margin: const EdgeInsets.only(top: 20, bottom: 12),
                       child: GestureDetector(
                         onTap: signupStore.invalidSendPressed,
-                        child: RaisedButton(
+                        // child:
+                        child: ElevatedButton(
                           onPressed: signupStore.signUpPressed,
-                          color: AppColors.kSecondaryColor,
-                          disabledColor: AppColors.kSecondaryColorLight,
                           child: signupStore.loading
                               ? CircularProgressIndicator(
-                                  valueColor:
-                                      AlwaysStoppedAnimation(Colors.white),
+                                  valueColor: AlwaysStoppedAnimation(
+                                    Colors.white,
+                                  ),
                                 )
                               : Text(
                                   'Cadastrar',
                                   style: TextStyle(fontSize: 18),
                                 ),
-                          textColor: Colors.white,
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5),
+                          style: ButtonStyle(
+                            foregroundColor:
+                                MaterialStateProperty.resolveWith<Color>(
+                              (Set<MaterialState> states) =>
+                                  states.contains(MaterialState.disabled)
+                                      ? Colors.white
+                                      : Colors.white,
+                            ),
+                            backgroundColor:
+                                MaterialStateProperty.resolveWith<Color>(
+                              (Set<MaterialState> states) =>
+                                  states.contains(MaterialState.disabled)
+                                      ? AppColors.kSecondaryColorLight
+                                      : AppColors.kSecondaryColor,
+                            ),
+                            shape: MaterialStateProperty.all(
+                                RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            )),
+                            elevation: MaterialStateProperty.all<double>(0),
                           ),
                         ),
                       ),
