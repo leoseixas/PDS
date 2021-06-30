@@ -25,7 +25,6 @@ class FavoritesScreen extends StatelessWidget {
         if (favoriteStore.favoriteList.isEmpty)
           return EmptyCard('Nenhum anúncio favoritado');
         return Container(
-          // padding: EdgeInsets.all(12),
           child: ListView.builder(
             itemCount: favoriteStore.favoriteList.length,
             itemBuilder: (_, index) => Padding(

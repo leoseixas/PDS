@@ -36,7 +36,10 @@ class _EditAccountState extends State<EditAccount> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              FieldTitle(title: 'Nome'),
+              FieldTitle(
+                title: 'Nome',
+                color: AppColors.kPrimaryColor,
+              ),
               Observer(builder: (_) {
                 return TextFormField(
                   initialValue: editAccountStore.name,
@@ -54,7 +57,10 @@ class _EditAccountState extends State<EditAccount> {
                 );
               }),
               SizedBox(height: 16),
-              FieldTitle(title: 'Telefone'),
+              FieldTitle(
+                title: 'Telefone',
+                color: AppColors.kPrimaryColor,
+              ),
               Observer(builder: (_) {
                 return TextFormField(
                   initialValue: editAccountStore.phone,
@@ -77,7 +83,10 @@ class _EditAccountState extends State<EditAccount> {
                 );
               }),
               SizedBox(height: 16),
-              FieldTitle(title: 'Nova senha'),
+              FieldTitle(
+                title: 'Nova senha',
+                color: AppColors.kPrimaryColor,
+              ),
               Observer(builder: (_) {
                 return TextField(
                   enabled: !editAccountStore.loading,
@@ -95,7 +104,10 @@ class _EditAccountState extends State<EditAccount> {
                 );
               }),
               SizedBox(height: 16),
-              FieldTitle(title: 'Senha novamente'),
+              FieldTitle(
+                title: 'Senha novamente',
+                color: AppColors.kPrimaryColor,
+              ),
               Observer(builder: (_) {
                 return TextField(
                   enabled: !editAccountStore.loading,
@@ -120,7 +132,9 @@ class _EditAccountState extends State<EditAccount> {
                     onPressed: editAccountStore.savePressed,
                     child: editAccountStore.loading
                         ? CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation(Colors.white),
+                            valueColor: AlwaysStoppedAnimation(
+                              AppColors.kPrimaryColor,
+                            ),
                           )
                         : Text(
                             'Salvar alteração',
@@ -130,8 +144,8 @@ class _EditAccountState extends State<EditAccount> {
                       foregroundColor: MaterialStateProperty.resolveWith<Color>(
                         (Set<MaterialState> states) =>
                             states.contains(MaterialState.disabled)
-                                ? Colors.white
-                                : Colors.white,
+                                ? AppColors.kPrimaryColor
+                                : AppColors.kPrimaryColor,
                       ),
                       backgroundColor: MaterialStateProperty.resolveWith<Color>(
                         (Set<MaterialState> states) =>

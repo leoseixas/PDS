@@ -44,7 +44,7 @@ class UserPanel extends StatelessWidget {
                   ),
                   SizedBox(height: 12),
                   Text(
-                    ad.user.phone,
+                    ad.user.phone ?? 'Telefone não cadastrado',
                     style: TextStyle(
                       color: Colors.grey[500],
                       fontSize: 18,

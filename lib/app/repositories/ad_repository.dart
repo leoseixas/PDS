@@ -75,7 +75,7 @@ class AdRepository {
   }
 
   Future<List<Ad>> getMyAds(User user) async {
-    final currentUser = ParseUser('', '', '')..set(keyUserId, user.id);
+    final currentUser = await ParseUser.currentUser() as ParseUser;
     final queryBuilder = QueryBuilder<ParseObject>(ParseObject(keyAdTable));
 
     queryBuilder.setLimit(100);
@@ -98,7 +98,7 @@ class AdRepository {
     try {
       final parseImages = await saveImages(ad.images);
 
-      final parseUser = ParseUser('', '', '')..set(keyUserId, ad.user.id);
+      final parseUser = await ParseUser.currentUser() as ParseUser;
 
       final adObject = ParseObject(keyAdTable);
 
@@ -112,7 +112,6 @@ class AdRepository {
       adObject.set<String>(keyAdTitle, ad.title);
       adObject.set<String>(keyAdDescription, ad.description);
       adObject.set<num>(keyAdPrice, ad.price);
-      // adObject.set<int>(keyAdStatus, ad.adStatus.index);
 
       adObject.set<String>(keyAdCity, ad.address.city.name);
       adObject.set<String>(keyAdFederativeUnit, ad.address.uf.initials);
@@ -155,9 +154,10 @@ class AdRepository {
           parseImages.add(parseFile);
         }
       }
+
       return parseImages;
     } catch (e) {
-      return Future.error('Falha ao salvar iamgens');
+      return Future.error('Falha ao salvar imagens');
     }
   }
 

@@ -9,25 +9,12 @@ class MyAdsStore = _MyAdsStore with _$MyAdsStore;
 
 abstract class _MyAdsStore with Store {
   _MyAdsStore() {
-    // autorun((_) async {
-    //   final user = GetIt.I<UserManagerStore>().user;
-    //   try {
-    //     setLoading(true);
-    //     final newAds = await AdRepository().getMyAds(user);
-    //     print(newAds);
-    //     myAdList.addAll(newAds);
-    //     setError(null);
-    //     setLoading(false);
-    //   } catch (e) {
-    //     setError(e);
-    //   }
-    // });
     autorun((_) {
-      _getMyAds();
+      final user = GetIt.I<UserManagerStore>().user;
+      if (user != null) _getMyAds();
     });
   }
 
-  // ObservableList<Ad> myAdList = ObservableList();
   List<Ad> myAdList = [];
 
   Future<void> _getMyAds() async {
@@ -35,9 +22,6 @@ abstract class _MyAdsStore with Store {
     try {
       setLoading(true);
       myAdList = await AdRepository().getMyAds(user);
-
-      // final newAds = await AdRepository().getMyAds(user);
-      // myAdList.addAll(newAds);
       setError(null);
       setLoading(false);
     } catch (e) {
@@ -70,7 +54,6 @@ abstract class _MyAdsStore with Store {
   Future<void> deleteAd(Ad ad) async {
     loading = true;
     await AdRepository().delete(ad);
-    // myAdList.clear();
     refresh();
     loading = false;
   }

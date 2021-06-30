@@ -10,26 +10,6 @@ part 'home_store.g.dart';
 class HomeStore = _HomeStore with _$HomeStore;
 
 abstract class _HomeStore with Store {
-  // _HomeStore() {
-  //   autorun((_) async {
-  //     connectivityStore.connected;
-  //     try {
-  //       setLoading(true);
-  //       final newAds = await AdRepository().getHomeAdList(
-  //         filter: filter,
-  //         search: search,
-  //         category: category,
-  //         page: page,
-  //       );
-  //       addNewAds(newAds);
-  //       setError(null);
-  //       setLoading(false);
-  //     } catch (e) {
-  //       setError(e);
-  //     }
-  //   });
-  // }
-
   final ConnectivityStore connectivityStore = GetIt.I<ConnectivityStore>();
 
   ObservableList<Ad> adList = ObservableList<Ad>();

@@ -19,6 +19,7 @@ class LocationFieldAd extends StatelessWidget {
           children: <Widget>[
             FieldTitle(
               title: 'Localização',
+              color: AppColors.kPrimaryColor,
             ),
             GestureDetector(
               onTap: () async {
@@ -44,10 +45,6 @@ class LocationFieldAd extends StatelessWidget {
                 child: Container(
                   height: 50,
                   padding: const EdgeInsets.all(16),
-                  // decoration: BoxDecoration(
-                  //   border: Border.all(color: Colors.grey),
-                  //   borderRadius: const BorderRadius.all(Radius.circular(5)),
-                  // ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[

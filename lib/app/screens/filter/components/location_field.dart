@@ -19,6 +19,7 @@ class LocationField extends StatelessWidget {
           children: <Widget>[
             FieldTitle(
               title: 'Localização',
+              color: AppColors.kPrimaryColor,
             ),
             GestureDetector(
               onTap: () async {

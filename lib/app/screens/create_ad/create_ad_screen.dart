@@ -11,8 +11,10 @@ import 'package:works/app/helpers/colors.dart';
 import 'package:works/app/models/ad.dart';
 import 'package:works/app/screens/create_ad/components/category_field.dart';
 import 'package:works/app/screens/create_ad/components/location_field_ad.dart';
+import 'package:works/app/screens/edit_account/edit_account.dart';
 import 'package:works/app/stores/create_ad_store.dart';
 import 'package:works/app/stores/page_store.dart';
+import 'package:works/app/stores/user_manager_store.dart';
 import 'components/images_field.dart';
 
 class CreateAdScreen extends StatefulWidget {
@@ -30,6 +32,7 @@ class _CreateAdScreenState extends State<CreateAdScreen> {
         createAdStore = CreateAdStore(ad ?? Ad());
 
   final CreateAdStore createAdStore;
+  final UserManagerStore userManagerStore = GetIt.I<UserManagerStore>();
 
   bool editing;
 
@@ -57,164 +60,190 @@ class _CreateAdScreenState extends State<CreateAdScreen> {
       ),
       body: Observer(
         builder: (_) {
-          if (createAdStore.loading)
+          if (userManagerStore.user.phone == null)
             return Container(
               alignment: Alignment.center,
-              padding: EdgeInsets.all(8),
-              child: Card(
-                elevation: 8,
-                color: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                child: Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation(Color(0xFFFF775B)),
-                      ),
-                      SizedBox(height: 16),
-                      Text(
-                        'Salvando Anúncio',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Color(0xFF04ADBF),
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.error_outline,
+                    size: 60,
+                    color: Colors.red,
                   ),
-                ),
-              ),
-            );
-          else
-            return Container(
-              alignment: Alignment.topCenter,
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(12),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                  SizedBox(height: 20),
+                  Wrap(
                     children: [
-                      ImagesField(createAdStore),
-                      SizedBox(height: 16),
-                      FieldTitle(title: 'Titulo'),
-                      Observer(builder: (_) {
-                        return TextFormField(
-                          autofocus: false,
-                          initialValue: createAdStore.title,
-                          onChanged: createAdStore.setTitle,
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Colors.white,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            contentPadding: contentPadding,
-                            errorText: createAdStore.titleError,
+                      Text(
+                        'Você ainda não tem um telefone cadastrado ',
+                        style: TextStyle(
+                            color: AppColors.kPrimaryColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700),
+                      ),
+                      GestureDetector(
+                        child: Text(
+                          'Cadastre!',
+                          style: TextStyle(
+                            decoration: TextDecoration.underline,
+                            color: Colors.blue[900],
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
                           ),
-                        );
-                      }),
-                      SizedBox(height: 16),
-                      FieldTitle(title: 'Descrição'),
-                      Observer(builder: (_) {
-                        return TextFormField(
-                          autofocus: false,
-                          initialValue: createAdStore.description,
-                          onChanged: createAdStore.setDescription,
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Colors.white,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            contentPadding: contentPadding,
-                            errorText: createAdStore.descriptionError,
-                          ),
-                          maxLines: null,
-                        );
-                      }),
-                      SizedBox(height: 16),
-                      FieldTitle(title: 'Categorias'),
-                      CategoryField(createAdStore),
-                      SizedBox(height: 16),
-                      LocationFieldAd(createAdStore),
-                      SizedBox(height: 16),
-                      FieldTitle(title: 'Preço'),
-                      Observer(
-                        builder: (_) {
-                          return TextFormField(
-                            autofocus: false,
-                            initialValue: createAdStore.priceText,
-                            onChanged: createAdStore.setPrice,
-                            decoration: InputDecoration(
-                              filled: true,
-                              fillColor: Colors.white,
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              contentPadding: contentPadding,
-                              errorText: createAdStore.priceError,
-                              prefixText: 'R\$ ',
-                            ),
-                            keyboardType: TextInputType.number,
-                            inputFormatters: [
-                              FilteringTextInputFormatter.digitsOnly,
-                              RealInputFormatter(centavos: true),
-                            ],
-                          );
+                        ),
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => EditAccount()));
                         },
                       ),
-                      SizedBox(height: 16),
-                      Observer(builder: (_) {
-                        return ErrorBox(
-                          message: createAdStore.error,
-                        );
-                      }),
-                      Observer(builder: (_) {
-                        return Container(
-                          height: 48,
-                          margin: const EdgeInsets.only(top: 4),
-                          child: GestureDetector(
-                            onTap: createAdStore.invalidSendPressed,
-                            child: ElevatedButton(
-                              onPressed: createAdStore.sendPressed,
-                              child: Text(
-                                editing ? 'Editar' : 'Enviar',
-                                style: TextStyle(fontSize: 18),
-                              ),
-                              style: ButtonStyle(
-                                foregroundColor:
-                                    MaterialStateProperty.resolveWith<Color>(
-                                  (Set<MaterialState> states) =>
-                                      states.contains(MaterialState.disabled)
-                                          ? Colors.white
-                                          : Colors.white,
-                                ),
-                                backgroundColor:
-                                    MaterialStateProperty.resolveWith<Color>(
-                                  (Set<MaterialState> states) =>
-                                      states.contains(MaterialState.disabled)
-                                          ? AppColors.kSecondaryColorLight
-                                          : AppColors.kSecondaryColor,
-                                ),
-                                shape: MaterialStateProperty.all(
-                                    RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5),
-                                )),
-                                elevation: MaterialStateProperty.all<double>(0),
-                              ),
-                            ),
-                          ),
-                        );
-                      }),
                     ],
                   ),
-                ),
+                ],
               ),
             );
+          return Container(
+            alignment: Alignment.topCenter,
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    ImagesField(createAdStore),
+                    SizedBox(height: 16),
+                    FieldTitle(
+                      title: 'Categorias',
+                      color: AppColors.kPrimaryColor,
+                    ),
+                    CategoryField(createAdStore),
+                    SizedBox(height: 16),
+                    LocationFieldAd(createAdStore),
+                    SizedBox(height: 16),
+                    FieldTitle(
+                      title: 'Titulo',
+                      color: AppColors.kPrimaryColor,
+                    ),
+                    Observer(builder: (_) {
+                      return TextFormField(
+                        initialValue: createAdStore.title,
+                        onChanged: createAdStore.setTitle,
+                        maxLength: 30,
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.white,
+                            counterText: '',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          contentPadding: contentPadding,
+                          errorText: createAdStore.titleError,
+                        ),
+                      );
+                    }),
+                    SizedBox(height: 16),
+                    FieldTitle(
+                      title: 'Descrição',
+                      color: AppColors.kPrimaryColor,
+                    ),
+                    Observer(builder: (_) {
+                      return TextFormField(
+                        initialValue: createAdStore.description,
+                        onChanged: createAdStore.setDescription,
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.white,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          contentPadding: contentPadding,
+                          errorText: createAdStore.descriptionError,
+                        ),
+                        maxLines: null,
+                      );
+                    }),
+                    SizedBox(height: 16),
+
+                    FieldTitle(
+                      title: 'Preço',
+                      color: AppColors.kPrimaryColor,
+                    ),
+                    Observer(
+                      builder: (_) {
+                        return TextFormField(
+                          initialValue: createAdStore.priceText,
+                          onChanged: createAdStore.setPrice,
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            contentPadding: contentPadding,
+                            errorText: createAdStore.priceError,
+                            prefixText: 'R\$ ',
+                          ),
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                            RealInputFormatter(centavos: true),
+                          ],
+                        );
+                      },
+                    ),
+                    SizedBox(height: 16),
+                    Observer(builder: (_) {
+                      return ErrorBox(
+                        message: createAdStore.error,
+                      );
+                    }),
+                    Observer(builder: (_) {
+                      return Container(
+                        height: 48,
+                        margin: const EdgeInsets.only(top: 4),
+                        child: GestureDetector(
+                          onTap: createAdStore.invalidSendPressed,
+                          child: ElevatedButton(
+                            onPressed: createAdStore.sendPressed,
+                            child: createAdStore.loading
+                                ? CircularProgressIndicator(
+                                    valueColor: AlwaysStoppedAnimation(
+                                        AppColors.kPrimaryColor),
+                                  )
+                                : Text(
+                                    editing ? 'Editar' : 'Enviar',
+                                    style: TextStyle(fontSize: 18),
+                                  ),
+                            style: ButtonStyle(
+                              foregroundColor:
+                                  MaterialStateProperty.resolveWith<Color>(
+                                (Set<MaterialState> states) =>
+                                    states.contains(MaterialState.disabled)
+                                        ? AppColors.kPrimaryColor
+                                        : AppColors.kPrimaryColor,
+                              ),
+                              backgroundColor:
+                                  MaterialStateProperty.resolveWith<Color>(
+                                (Set<MaterialState> states) =>
+                                    states.contains(MaterialState.disabled)
+                                        ? AppColors.kSecondaryColorLight
+                                        : AppColors.kSecondaryColor,
+                              ),
+                              shape: MaterialStateProperty.all(
+                                  RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5),
+                              )),
+                              elevation: MaterialStateProperty.all<double>(0),
+                            ),
+                          ),
+                        ),
+                      );
+                    }),
+                  ],
+                ),
+              ),
+            ),
+          );
         },
       ),
     );

@@ -75,4 +75,24 @@ abstract class _LoginStore with Store {
 
     loading = false;
   }
+
+  @observable
+  bool loadingFace = false;
+
+  @computed
+  Function get facebookPressed => !loading ? _facebook : null;
+
+  @action
+  Future<void> _facebook() async {
+    loadingFace = true;
+
+    try {
+      final user = await UserRepository().loginWithFacebook();
+      GetIt.I<UserManagerStore>().setUser(user);
+    } catch (e) {
+      error = e;
+    }
+
+    loadingFace = false;
+  }
 }

@@ -37,6 +37,13 @@ mixin _$LoginStore on _LoginStore, Store {
       (_$loginPressedComputed ??= Computed<Function>(() => super.loginPressed,
               name: '_LoginStore.loginPressed'))
           .value;
+  Computed<Function> _$facebookPressedComputed;
+
+  @override
+  Function get facebookPressed => (_$facebookPressedComputed ??=
+          Computed<Function>(() => super.facebookPressed,
+              name: '_LoginStore.facebookPressed'))
+      .value;
 
   final _$emailAtom = Atom(name: '_LoginStore.email');
 
@@ -128,11 +135,33 @@ mixin _$LoginStore on _LoginStore, Store {
     });
   }
 
+  final _$loadingFaceAtom = Atom(name: '_LoginStore.loadingFace');
+
+  @override
+  bool get loadingFace {
+    _$loadingFaceAtom.reportRead();
+    return super.loadingFace;
+  }
+
+  @override
+  set loadingFace(bool value) {
+    _$loadingFaceAtom.reportWrite(value, super.loadingFace, () {
+      super.loadingFace = value;
+    });
+  }
+
   final _$_loginAsyncAction = AsyncAction('_LoginStore._login');
 
   @override
   Future<void> _login() {
     return _$_loginAsyncAction.run(() => super._login());
+  }
+
+  final _$_facebookAsyncAction = AsyncAction('_LoginStore._facebook');
+
+  @override
+  Future<void> _facebook() {
+    return _$_facebookAsyncAction.run(() => super._facebook());
   }
 
   final _$_LoginStoreActionController = ActionController(name: '_LoginStore');
@@ -179,10 +208,12 @@ showErrors: ${showErrors},
 loading: ${loading},
 loggedIn: ${loggedIn},
 error: ${error},
+loadingFace: ${loadingFace},
 emailValid: ${emailValid},
 passwordValid: ${passwordValid},
 isFormValid: ${isFormValid},
-loginPressed: ${loginPressed}
+loginPressed: ${loginPressed},
+facebookPressed: ${facebookPressed}
     ''';
   }
 }

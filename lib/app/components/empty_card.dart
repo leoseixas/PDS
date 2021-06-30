@@ -16,7 +16,7 @@ class EmptyCard extends StatelessWidget {
           Icon(
             Icons.border_clear,
             size: 200,
-            color: AppColors.kSecondaryColor,
+            color: AppColors.kPrimaryColor,
           ),
           Padding(
             padding: const EdgeInsets.only(top: 16),
@@ -26,7 +26,7 @@ class EmptyCard extends StatelessWidget {
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
-                color: Colors.grey[600],
+                color: AppColors.titleColors,
               ),
             ),
           ),

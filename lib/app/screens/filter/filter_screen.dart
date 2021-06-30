@@ -53,8 +53,8 @@ class FilterScreen extends StatelessWidget {
                             MaterialStateProperty.resolveWith<Color>(
                           (Set<MaterialState> states) =>
                               states.contains(MaterialState.disabled)
-                                  ? Colors.white
-                                  : Colors.white,
+                                  ? AppColors.kPrimaryColor
+                                  : AppColors.kPrimaryColor,
                         ),
                         backgroundColor:
                             MaterialStateProperty.resolveWith<Color>(

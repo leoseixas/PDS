@@ -193,8 +193,9 @@ abstract class _CreateAdStore with Store {
     loading = true;
 
     try {
-      await AdRepository().saveAd(ad);
+      print(ad.toString());
 
+      await AdRepository().saveAd(ad);
       savedAd = true;
     } catch (e) {
       error = e;

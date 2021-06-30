@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:works/app/components/field_title/field_title.dart';
+import 'package:works/app/helpers/colors.dart';
 import 'package:works/app/screens/filter/components/price_field.dart';
 import 'package:works/app/stores/filter_store.dart';
 
@@ -14,7 +15,10 @@ class PriceRangeField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        FieldTitle(title: 'Preço'),
+        FieldTitle(
+          title: 'Preço',
+          color: AppColors.kPrimaryColor,
+        ),
         Row(
           children: [
             PriceField(

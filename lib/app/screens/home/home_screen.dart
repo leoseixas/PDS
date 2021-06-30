@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 import 'package:works/app/components/custom_drawer/custom_drawer.dart';
+import 'package:works/app/components/empty_card.dart';
 import 'package:works/app/helpers/colors.dart';
 import 'package:works/app/screens/home/components/search_dialog.dart';
 import 'package:works/app/screens/home/components/top_bar.dart';
@@ -45,8 +46,13 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       drawer: CustomDrawer(),
       appBar: AppBar(
+        iconTheme: IconThemeData(color: AppColors.kSecondaryColorLight),
         title: Observer(builder: (_) {
-          if (homeStore.search.isEmpty) return Text('Anúnicos');
+          if (homeStore.search.isEmpty)
+            return Text('Anúnicos',
+                style: TextStyle(
+                  color: AppColors.kSecondaryColorLight,
+                ));
           return GestureDetector(
             child: LayoutBuilder(builder: (_, constraints) {
               return Container(
@@ -61,7 +67,10 @@ class _HomeScreenState extends State<HomeScreen> {
           Observer(builder: (_) {
             if (homeStore.search.isEmpty)
               return IconButton(
-                icon: Icon(Icons.search),
+                icon: Icon(
+                  Icons.search,
+                  color: AppColors.kSecondaryColor,
+                ),
                 onPressed: () {
                   openSearch(context);
                 },
@@ -87,17 +96,17 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       Icon(
                         Icons.error,
-                        color: Colors.grey[700],
-                        size: 100,
+                        size: 200,
+                        color: AppColors.kPrimaryColor,
                       ),
                       const SizedBox(height: 8),
                       Text(
                         'Ocorreu um erro, ${homeStore.error}!',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w700,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.titleColors,
                         ),
                       ),
                     ],
@@ -105,30 +114,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 if (homeStore.showProgress)
                   return Center(
                     child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation(Colors.grey[400]),
+                      valueColor:
+                          AlwaysStoppedAnimation(AppColors.kPrimaryColor),
                     ),
                   );
                 if (homeStore.adList.isEmpty)
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.border_clear,
-                        color: Colors.grey[700],
-                        size: 100,
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        'Nenhum anúncio encontrado!',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ],
-                  );
+                  return EmptyCard('Nenhum anúncio encontrado');
                 return ListView.builder(
                   itemCount: homeStore.itemCount,
                   itemBuilder: (_, index) {

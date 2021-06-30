@@ -20,7 +20,7 @@ class BarButton extends StatelessWidget {
           child: Text(
             label,
             style: TextStyle(
-              color: AppColors.kSecondaryColor,
+              color: AppColors.kPrimaryColor,
               fontSize: 16,
               fontWeight: FontWeight.w600,
             ),

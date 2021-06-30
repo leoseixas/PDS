@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:works/app/helpers/colors.dart';
 
 class SearchDialog extends StatelessWidget {
   SearchDialog({this.currentSearch})
@@ -23,12 +24,12 @@ class SearchDialog extends StatelessWidget {
                 border: InputBorder.none,
                 prefixIcon: IconButton(
                   icon: Icon(Icons.arrow_back),
-                  color: Colors.grey[700],
+                  color: AppColors.kPrimaryColor,
                   onPressed: Navigator.of(context).pop,
                 ),
                 suffixIcon: IconButton(
                   icon: Icon(Icons.close),
-                  color: Colors.grey[700],
+                  color: AppColors.kPrimaryColor,
                   onPressed: controller.clear,
                 ),
               ),

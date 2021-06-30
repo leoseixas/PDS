@@ -55,7 +55,7 @@ class AdTile extends StatelessWidget {
                       Text(
                         ad.title,
                         style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 18,
                           fontWeight: FontWeight.bold,
                           color: AppColors.titleColors,
                         ),

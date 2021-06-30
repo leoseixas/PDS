@@ -17,13 +17,11 @@ class AppWidget extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primaryColor: AppColors.kPrimaryColor,
-        secondaryHeaderColor: Color(0xFFFF775B),
         visualDensity: VisualDensity.adaptivePlatformDensity,
         textSelectionTheme: TextSelectionThemeData(
-          cursorColor: Color(0xFFFF775B),
+          cursorColor: AppColors.kPrimaryColor,
         ),
         accentColor: AppColors.kSecondaryColor,
-        // scaffoldBackgroundColor: Color(0xFFEEF4F6),
         scaffoldBackgroundColor: Colors.white,
       ),
       supportedLocales: const [

@@ -26,8 +26,10 @@ class AdScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: AppColors.kSecondaryColorLight),
         title: Text(
           'Anúncio',
+          style: TextStyle(color: AppColors.kSecondaryColorLight),
         ),
         actions: [
           if (ad.user.id != userManagerStore.user.id)
@@ -70,6 +72,8 @@ class AdScreen extends StatelessWidget {
                     UserPanel(ad),
                     if (userManagerStore.user.id == ad.user.id)
                       Container()
+                    else if (ad.user.phone == null)
+                      SizedBox(height: 30)
                     else
                       SizedBox(height: 84),
                   ],

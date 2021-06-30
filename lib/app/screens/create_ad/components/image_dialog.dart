@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 class ImageDialog extends StatelessWidget {
@@ -11,7 +13,7 @@ class ImageDialog extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Image.file(image),
+          image is File ? Image.file(image) : Image.network(image),
           TextButton(
             onPressed: () {
               Navigator.of(context).pop();

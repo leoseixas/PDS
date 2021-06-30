@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:works/app/components/empty_card.dart';
+import 'package:works/app/helpers/colors.dart';
 import 'package:works/app/stores/my_ads_store.dart';
 import 'package:works/app/screens/my_ads/components/my_ad_tile.dart';
 
@@ -20,17 +22,17 @@ class MyAdsScreen extends StatelessWidget {
               children: [
                 Icon(
                   Icons.error,
-                  color: Colors.grey[700],
-                  size: 100,
+                  size: 200,
+                  color: AppColors.kPrimaryColor,
                 ),
                 const SizedBox(height: 8),
                 Text(
                   'Ocorreu um erro, ${myAdsStore.error}!',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.titleColors,
                   ),
                 ),
               ],
@@ -38,32 +40,13 @@ class MyAdsScreen extends StatelessWidget {
           if (myAdsStore.showProgress)
             return Center(
               child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation(Colors.grey[500]),
+                valueColor: AlwaysStoppedAnimation(
+                  AppColors.kPrimaryColor,
+                ),
               ),
             );
           if (myAdsStore.myAdList.isEmpty)
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.border_clear,
-                    color: Colors.grey[700],
-                    size: 100,
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Você não possiu anúncios!',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ],
-              ),
-            );
+            return EmptyCard('Nenhum anúncio favoritado');
           return Container(
             child: ListView.builder(
               itemCount: myAdsStore.myAdList.length,

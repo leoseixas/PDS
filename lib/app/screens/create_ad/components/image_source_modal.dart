@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:works/app/helpers/colors.dart';
 
 class ImageSourceModal extends StatelessWidget {
   ImageSourceModal(this.onImageSelected);
@@ -71,15 +72,14 @@ class ImageSourceModal extends StatelessWidget {
       sourcePath: image.path,
       aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
       androidUiSettings: AndroidUiSettings(
-        toolbarTitle: 'Editar imagem',
-        toolbarColor: Color(0xFF04ADBF),
-        toolbarWidgetColor: Colors.white,
+        toolbarTitle: 'Editar Imagem',
+        toolbarColor: AppColors.kPrimaryColor,
+        toolbarWidgetColor: AppColors.kSecondaryColor,
       ),
       iosUiSettings: IOSUiSettings(
-        title: 'Editar imagem',
-        cancelButtonTitle: 'Cancelar',
-        doneButtonTitle: 'Concluir',
-      ),
+          title: 'Editar Imagem',
+          cancelButtonTitle: 'Cancelar',
+          doneButtonTitle: 'Concluir'),
     );
     if (croppedFile != null) onImageSelected(croppedFile);
   }

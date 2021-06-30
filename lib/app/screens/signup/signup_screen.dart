@@ -2,7 +2,6 @@ import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:works/app/components/custom_botton_google/custom_botton_google.dart';
 import 'package:works/app/components/error_box.dart';
 import 'package:works/app/components/field_title/field_title.dart';
 import 'package:works/app/helpers/colors.dart';
@@ -33,7 +32,7 @@ class SignUpScreen extends StatelessWidget {
                       );
                     },
                   ),
-                  FieldTitle(title: 'Nome'),
+                  FieldTitle(title: 'Nome', color: AppColors.kPrimaryColor),
                   Observer(builder: (_) {
                     return TextField(
                       enabled: !signupStore.loading,
@@ -50,7 +49,7 @@ class SignUpScreen extends StatelessWidget {
                     );
                   }),
                   SizedBox(height: 16),
-                  FieldTitle(title: 'E-mail'),
+                  FieldTitle(title: 'E-mail', color: AppColors.kPrimaryColor),
                   Observer(builder: (_) {
                     return TextField(
                       enabled: !signupStore.loading,
@@ -68,7 +67,7 @@ class SignUpScreen extends StatelessWidget {
                     );
                   }),
                   SizedBox(height: 16),
-                  FieldTitle(title: 'Telefone'),
+                  FieldTitle(title: 'Telefone', color: AppColors.kPrimaryColor),
                   Observer(builder: (_) {
                     return TextField(
                       enabled: !signupStore.loading,
@@ -90,7 +89,7 @@ class SignUpScreen extends StatelessWidget {
                     );
                   }),
                   SizedBox(height: 16),
-                  FieldTitle(title: 'Senha'),
+                  FieldTitle(title: 'Senha', color: AppColors.kPrimaryColor),
                   Observer(builder: (_) {
                     return TextField(
                       enabled: !signupStore.loading,
@@ -108,7 +107,8 @@ class SignUpScreen extends StatelessWidget {
                     );
                   }),
                   SizedBox(height: 16),
-                  FieldTitle(title: 'Senha novamente'),
+                  FieldTitle(
+                      title: 'Senha novamente', color: AppColors.kPrimaryColor),
                   Observer(builder: (_) {
                     return TextField(
                       enabled: !signupStore.loading,
@@ -131,14 +131,12 @@ class SignUpScreen extends StatelessWidget {
                       margin: const EdgeInsets.only(top: 20, bottom: 12),
                       child: GestureDetector(
                         onTap: signupStore.invalidSendPressed,
-                        // child:
                         child: ElevatedButton(
                           onPressed: signupStore.signUpPressed,
                           child: signupStore.loading
                               ? CircularProgressIndicator(
                                   valueColor: AlwaysStoppedAnimation(
-                                    Colors.white,
-                                  ),
+                                      AppColors.kPrimaryColor),
                                 )
                               : Text(
                                   'Cadastrar',
@@ -149,8 +147,8 @@ class SignUpScreen extends StatelessWidget {
                                 MaterialStateProperty.resolveWith<Color>(
                               (Set<MaterialState> states) =>
                                   states.contains(MaterialState.disabled)
-                                      ? Colors.white
-                                      : Colors.white,
+                                      ? AppColors.kPrimaryColor
+                                      : AppColors.kPrimaryColor,
                             ),
                             backgroundColor:
                                 MaterialStateProperty.resolveWith<Color>(
@@ -172,19 +170,13 @@ class SignUpScreen extends StatelessWidget {
                 ],
               ),
               Divider(color: Colors.black54),
-              Padding(
-                padding: const EdgeInsets.only(top: 12.0),
-                child: CustomBottonGoogle(
-                  onPressed: () {},
-                ),
-              ),
-              SizedBox(height: 50),
+              SizedBox(height: 12),
               Wrap(
                 children: [
                   Text(
                     'Já possui uma conta? ',
                     style: TextStyle(
-                      color: Colors.grey[800],
+                      color: AppColors.kPrimaryColor,
                       fontSize: 14,
                     ),
                   ),
@@ -194,7 +186,7 @@ class SignUpScreen extends StatelessWidget {
                       'Entre!',
                       style: TextStyle(
                         decoration: TextDecoration.underline,
-                        color: AppColors.kSecondaryColor,
+                        color: Colors.grey[500],
                         fontSize: 14,
                       ),
                     ),

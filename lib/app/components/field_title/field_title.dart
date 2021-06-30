@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:works/app/helpers/colors.dart';
+// import 'package:works/app/helpers/colors.dart';
 
 class FieldTitle extends StatelessWidget {
-  FieldTitle({this.title});
+  FieldTitle({this.title, this.color});
 
   final String title;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,7 @@ class FieldTitle extends StatelessWidget {
           Text(
             '$title',
             style: TextStyle(
-              color: AppColors.titleColors,
+              color: color,
               fontSize: 12,
               fontWeight: FontWeight.w700,
             ),

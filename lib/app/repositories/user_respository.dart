@@ -3,6 +3,8 @@ import 'package:works/app/models/user.dart';
 import 'package:works/app/repositories/parse_erros.dart';
 import 'package:works/app/repositories/tables_keys.dart';
 
+import 'facebook_repository.dart';
+
 class UserRepository {
   Future<User> signUp(User user) async {
     final parseUser = ParseUser(user.email, user.password, user.email);
@@ -38,8 +40,7 @@ class UserRepository {
       if (response.success) {
         return mapParseToUser(response.result);
       } else {
-        // await parseUser.logout();
-        return null;
+        await parseUser.logout();
       }
     }
     return null;
@@ -108,5 +109,40 @@ class UserRepository {
     final ParseResponse parseResponse = await user.requestPasswordReset();
     if (!parseResponse.success)
       return Future.error(ParseErrors.getDescription(parseResponse.error.code));
+  }
+
+  Future<User> loginWithFacebook() async {
+    try {
+      final Map<String, dynamic> authData = await FacebookRepository().login();
+
+      ParseResponse parseResponse =
+          await ParseUser.loginWith('facebook', authData);
+
+      if (parseResponse.success) {
+        final ParseUser parseUser = parseResponse.results.first as ParseUser;
+
+        if (authData.containsKey(keyUserEmail)) {
+          parseUser.emailAddress = authData[keyUserEmail];
+        }
+
+        if (authData.containsKey(keyUserName)) {
+          parseUser.set<String>(keyUserName, authData[keyUserName]);
+        }
+
+        parseResponse = await parseUser.save();
+
+        if (parseResponse.success) {
+          return mapParseToUser(parseUser);
+        } else {
+          return Future.error(
+              ParseErrors.getDescription(parseResponse.error.code));
+        }
+      } else {
+        return Future.error(
+            ParseErrors.getDescription(parseResponse.error.code));
+      }
+    } catch (e) {
+      return Future.error(e);
+    }
   }
 }

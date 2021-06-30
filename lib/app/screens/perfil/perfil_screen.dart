@@ -51,14 +51,16 @@ class PerfilScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 50),
                   Observer(builder: (_) {
-                    return Text(
-                      userManagerStore.user.name,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 30,
-                        color: AppColors.titleColors,
-                      ),
-                    );
+                    return userManagerStore.user == null
+                        ? CircularProgressIndicator()
+                        : Text(
+                            userManagerStore.user.name,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 30,
+                              color: AppColors.titleColors,
+                            ),
+                          );
                   }),
                   SizedBox(height: 5),
                   Text(
@@ -124,21 +126,6 @@ class PerfilScreen extends StatelessWidget {
                     Divider(color: Colors.grey[500]),
                     ListTile(
                       title: Text(
-                        'Trocar senha',
-                        style: TextStyle(
-                          color: AppColors.kPrimaryColor,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      trailing: Icon(
-                        Icons.keyboard_arrow_right,
-                        color: AppColors.kPrimaryColor,
-                      ),
-                      onTap: () {},
-                    ),
-                    Divider(color: Colors.grey[500]),
-                    ListTile(
-                      title: Text(
                         'Sair',
                         style: TextStyle(
                           color: Colors.red,
@@ -158,23 +145,25 @@ class PerfilScreen extends StatelessWidget {
               )
             ],
           ),
-          Positioned(
-            top: 20,
-            left: 0,
-            right: 0,
-            child: CircleAvatar(
-              backgroundColor: Colors.grey[300],
-              maxRadius: 40,
-              child: Text(
-                userManagerStore.user.name[0],
-                style: TextStyle(
-                  fontSize: 35,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.kSecondaryColor,
+          Observer(builder: (_) {
+            return Positioned(
+              top: 20,
+              left: 0,
+              right: 0,
+              child: CircleAvatar(
+                backgroundColor: AppColors.kSecondaryColor,
+                maxRadius: 40,
+                child: Text(
+                  userManagerStore.user.name[0],
+                  style: TextStyle(
+                    fontSize: 35,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.kPrimaryColor,
+                  ),
                 ),
               ),
-            ),
-          ),
+            );
+          }),
         ],
       ),
     );

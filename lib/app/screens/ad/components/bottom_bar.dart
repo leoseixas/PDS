@@ -17,89 +17,91 @@ class BottomBar extends StatelessWidget {
       right: 0,
       child: Column(
         children: [
-          Container(
-            padding: EdgeInsets.only(bottom: 10),
-            margin: EdgeInsets.symmetric(horizontal: 20),
-            child: Row(
-              children: [
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () async {
-                      final phone =
-                          '55${ad.user.phone.replaceAll(RegExp('[^0-9]'), '')}';
-                      print(phone);
-                      final link = WhatsAppUnilink(
-                        phoneNumber: '$phone',
-                        text:
-                            "Olá, gostaria de falar sobre seu anúncio na Works - ${ad.title}",
-                      );
-                      await launch('$link');
-                    },
-                    child: Container(
-                      height: 50,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(25),
-                        color: AppColors.whatsAppColors,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            'assets/icons/whatsapp.png',
-                            width: 24,
-                          ),
-                          SizedBox(width: 10),
-                          Text(
-                            'Whatsapp',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
+          ad.user.phone == null
+              ? Container()
+              : Container(
+                  padding: EdgeInsets.only(bottom: 10),
+                  margin: EdgeInsets.symmetric(horizontal: 20),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () async {
+                            final phone =
+                                '55${ad.user.phone.replaceAll(RegExp('[^0-9]'), '')}';
+                            print(phone);
+                            final link = WhatsAppUnilink(
+                              phoneNumber: '$phone',
+                              text:
+                                  "Olá, gostaria de falar sobre seu anúncio na Works - ${ad.title}",
+                            );
+                            await launch('$link');
+                          },
+                          child: Container(
+                            height: 50,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(25),
+                              color: AppColors.whatsAppColors,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  'assets/icons/whatsapp.png',
+                                  width: 24,
+                                ),
+                                SizedBox(width: 10),
+                                Text(
+                                  'Whatsapp',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                        ],
+                        ),
                       ),
-                    ),
-                  ),
-                ),
-                SizedBox(width: 20),
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () {
-                      final phone =
-                          ad.user.phone.replaceAll(RegExp('[^0-9]'), '');
-                      launch('tel:$phone');
-                    },
-                    child: Container(
-                      height: 50,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(25),
-                        color: AppColors.callColors,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            'assets/icons/phone.png',
-                            width: 24,
-                          ),
-                          SizedBox(width: 10),
-                          Text(
-                            'Ligar',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
+                      SizedBox(width: 20),
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            final phone =
+                                ad.user.phone.replaceAll(RegExp('[^0-9]'), '');
+                            launch('tel:$phone');
+                          },
+                          child: Container(
+                            height: 50,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(25),
+                              color: AppColors.callColors,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  'assets/icons/phone.png',
+                                  width: 24,
+                                ),
+                                SizedBox(width: 10),
+                                Text(
+                                  'Ligar',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                        ],
+                        ),
                       ),
-                    ),
+                    ],
                   ),
                 ),
-              ],
-            ),
-          ),
           Container(
             decoration: BoxDecoration(
               color: Color(0xFFEEF4F6),

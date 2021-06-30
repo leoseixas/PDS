@@ -49,7 +49,7 @@ class CategoryScreen extends StatelessWidget {
                       child: Container(
                         height: 50,
                         color: category.id == selected?.id
-                            ? Colors.orange.withAlpha(50)
+                            ? AppColors.kSecondaryColor
                             : null,
                         padding: EdgeInsets.all(12),
                         alignment: Alignment.centerLeft,

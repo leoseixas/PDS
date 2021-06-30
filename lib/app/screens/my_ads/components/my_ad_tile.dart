@@ -102,25 +102,28 @@ class MyAdTile extends StatelessWidget {
                   },
                   itemBuilder: (_) {
                     return choices
-                        .map((choice) => PopupMenuItem<MenuChoice>(
-                              value: choice,
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    choice.iconData,
-                                    size: 20,
-                                    color: AppColors.kSecondaryColor,
+                        .map(
+                          (choice) => PopupMenuItem<MenuChoice>(
+                            value: choice,
+                            child: Row(
+                              children: [
+                                Icon(
+                                  choice.iconData,
+                                  size: 20,
+                                  color: AppColors.kPrimaryColor,
+                                ),
+                                const SizedBox(width: 8),
+                                Text(
+                                  choice.title,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    color: AppColors.kPrimaryColor,
                                   ),
-                                  const SizedBox(width: 8),
-                                  Text(
-                                    choice.title,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w400,
-                                        color: AppColors.kSecondaryColor),
-                                  ),
-                                ],
-                              ),
-                            ))
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
                         .toList();
                   },
                 ),

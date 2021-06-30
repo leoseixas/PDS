@@ -7,8 +7,6 @@ import 'package:works/app/models/user.dart';
 import 'package:works/app/repositories/tables_keys.dart';
 import 'package:works/app/repositories/user_respository.dart';
 
-// enum AdStatus { PENDING, ACTIVE, DELETED }
-
 class Ad {
   Ad.fromParse(ParseObject object) {
     id = object.objectId;
@@ -24,10 +22,8 @@ class Ad {
         name: object.get<String>(keyAdState),
       ),
     );
-    views = object.get<int>(keyAdViews, defaultValue: 0);
     user = UserRepository().mapParseToUser(object.get<ParseUser>(keyAdOwner));
     category = Category.fromParse(object.get<ParseObject>(keyAdCategory));
-    // adStatus = AdStatus.values[object.get<int>(keyAdStatus)];
   }
 
   Ad();
@@ -39,10 +35,11 @@ class Ad {
   Category category;
   Address address;
   num price;
-
-  // AdStatus adStatus = AdStatus.ACTIVE;
   DateTime createdDate;
-
   User user;
-  int views;
+
+  @override
+  String toString() {
+    return 'ad:{ id: $id, images: $images, title: $title, description: $description, category: $category, address: $address, price: $price, dateTime: $createdDate, user: user}';
+  }
 }

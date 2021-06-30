@@ -57,12 +57,14 @@ class FavoriteTile extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            ad.title,
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.titleColors,
+                          Expanded(
+                            child: Text(
+                              ad.title,
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.titleColors,
+                              ),
                             ),
                           ),
                           Padding(

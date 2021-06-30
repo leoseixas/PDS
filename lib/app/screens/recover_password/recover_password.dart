@@ -120,24 +120,21 @@ class _RecoverPasswordState extends State<RecoverPassword> {
                         onPressed: recoverStore.recoverPressed,
                         child: recoverStore.loading
                             ? CircularProgressIndicator(
-                                valueColor:
-                                    AlwaysStoppedAnimation(Colors.white),
+                                valueColor: AlwaysStoppedAnimation(
+                                  AppColors.kPrimaryColor,
+                                ),
                               )
                             : Text(
                                 'Recuperar senha',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                ),
+                                style: TextStyle(fontSize: 16),
                               ),
                         style: ButtonStyle(
                           foregroundColor:
                               MaterialStateProperty.resolveWith<Color>(
                             (Set<MaterialState> states) =>
                                 states.contains(MaterialState.disabled)
-                                    ? Colors.white
-                                    : Colors.white,
+                                    ? AppColors.kPrimaryColor
+                                    : AppColors.kPrimaryColor,
                           ),
                           backgroundColor:
                               MaterialStateProperty.resolveWith<Color>(

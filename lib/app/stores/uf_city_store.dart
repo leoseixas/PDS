@@ -49,23 +49,9 @@ abstract class _UfCityStore with Store {
       ibge.getCityListFromApi(uf).then(setOutList).catchError(setError);
     } else {
       city = value;
-
-      // getAddress(city);
     }
     setSearch('');
   }
-
-  // @action
-  // Future<void> getAddress(City city) async {
-  //   try {
-  //     address = await ibge.getAddressFromApi(city.id);
-  //     print(address);
-  //     error = null;
-  //   } catch (e) {
-  //     error = e;
-  //     address = null;
-  //   }
-  // }
 
   @computed
   List get outFiltered {
